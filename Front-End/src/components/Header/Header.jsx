@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './header.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,8 +28,8 @@ const Header = () => {
           <a href="#meal-planner" onClick={() => setIsMenuOpen(false)}>Meal Planner</a>
           <a href="#about" onClick={() => setIsMenuOpen(false)}>About</a>
           <div className="auth-buttons">
-            <button className="login-btn">Login</button>
-            <button className="signup-btn">Sign Up</button>
+            <Link to="/login" className="login-btn">Login</Link>
+            <Link to="/register" className="signup-btn" style={{ textDecoration: 'none', color: 'white' }}>Register</Link>
           </div>
         </nav>
       </div>
