@@ -1,0 +1,40 @@
+{
+  "name": "quick_serve",
+  "version": "1.0.0",
+  "description": "QUICKSERVE is a robust and advanced starter template designed to jump-start your backend application development with Node.js and Express.js. It offers a clean and scalable structure following best practices in Node.js development, perfect for building RESTful APIs and web applications.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently -n server -c #32a852 \"nodemon --exec babel-node index.js\"",
+    "dev": "concurrently -n server -c #32a852 \"nodemon --exec babel-node index.js\"",
+    "swagger": "node ./swagger/swagger.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "concurrently": "^9.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^5.13.8",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16",
+    "nodemailer-express-handlebars": "^7.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "swagger-autogen": "^2.23.7"
+  }
+}
