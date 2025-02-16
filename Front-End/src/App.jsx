@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
+import './index.css';
+import Home from './pages/Home';
 
 const App = () => {
   return (
-    <div>
-      <h1>
-        TheRecipeBook
-      </h1>
+    <div className="app">
+      <Home />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
