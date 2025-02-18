@@ -173,6 +173,9 @@
   transform: scale(1.02);
 }
 
+.LINK{
+  text-decoration: none;
+}
 /* Floating Cards */
 .floating-card {
   position: absolute;
