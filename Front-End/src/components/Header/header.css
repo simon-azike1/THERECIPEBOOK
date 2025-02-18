@@ -76,7 +76,7 @@
 }
 
 .nav-links a:hover {
-  color: var(--white);
+  color: var(--primary-blue);
 }
 
 .auth-buttons {
@@ -101,7 +101,7 @@
 
 .login-btn:hover {
   background-color: var(--primary-blue);
-  color: var(--white);
+  color: var(--white) !important;
 }
 
 .signup-btn {
