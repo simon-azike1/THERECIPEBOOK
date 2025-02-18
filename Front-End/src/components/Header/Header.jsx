@@ -12,8 +12,9 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-container">
-        <div className="logo">
-          <span className="logo-text">TheRecipeBook</span>
+       
+       <div className="logo">
+          <span className="logo-text"><Link to="/Register"  className='logo-text logo-text-two'> TheRecipeBook</Link></span>
         </div>
 
         {/* Mobile Menu Button */}

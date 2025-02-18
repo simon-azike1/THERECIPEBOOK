@@ -113,6 +113,18 @@
   background-color: var(--light-blue);
 }
 
+.logo-text-two{
+  text-decoration: none;
+}
+
+.logo-text-two:hover{
+color: var(--white);
+transition: ease-in .3s;
+background-color: var(--primary-blue);
+border-radius: 5px;
+padding: 5px;
+}
+
 .mobile-menu-btn {
   display: none;
   background: none;
