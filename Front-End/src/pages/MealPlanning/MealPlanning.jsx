@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import RecipeModal from '../../components/RecipeModal/RecipeModal';
 import './mealPlanning.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -21,6 +22,7 @@ const MealPlanning = () => {
   const [editMode, setEditMode] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [weeklyPlan, setWeeklyPlan] = useState(initialWeeklyPlan);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dietaryPreferences = [
     { id: 'vegetarian', label: 'Vegetarian', icon: '🥗' },
@@ -73,6 +75,68 @@ const MealPlanning = () => {
     calories: 500,
     image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80",
     time: "30 min"
+  };
+
+  const [modalTab, setModalTab] = useState('search');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [recipes, setRecipes] = useState([]);
+  const [newRecipe, setNewRecipe] = useState({
+    title: '',
+    time: '',
+    calories: '',
+    image: null,
+    ingredients: [],
+    instructions: []
+  });
+
+  const handleCreateRecipe = (e) => {
+    e.preventDefault();
+    // Handle recipe creation
+  };
+
+  const handleImageUpload = (e) => {
+    // Handle image upload
+  };
+
+  const handleIngredientChange = (index, value) => {
+    // Handle ingredient change
+  };
+
+  const removeIngredient = (index) => {
+    // Handle removing an ingredient
+  };
+
+  const addIngredient = () => {
+    // Handle adding a new ingredient
+  };
+
+  const handleInstructionChange = (index, value) => {
+    // Handle instruction change
+  };
+
+  const removeInstruction = (index) => {
+    // Handle removing an instruction
+  };
+
+  const addInstruction = () => {
+    // Handle adding a new instruction
+  };
+
+  const handleMealClick = (day, type) => {
+    setSelectedMeal({ day, type });
+    setIsModalOpen(true);
+  };
+
+  const handleSaveRecipe = (recipe) => {
+    if (selectedMeal) {
+      setWeeklyPlan(prev => ({
+        ...prev,
+        [selectedMeal.day]: {
+          ...prev[selectedMeal.day],
+          [selectedMeal.type]: recipe
+        }
+      }));
+    }
   };
 
   return (
@@ -217,28 +281,19 @@ const MealPlanning = () => {
                     <div 
                       key={`${day}-${type}`} 
                       className="meal-slot"
-                      onClick={() => {
-                        setSelectedMeal({ day, type });
-                        setEditMode(true);
-                      }}
+                      onClick={() => handleMealClick(day, type)}
                     >
                       {weeklyPlan[day][type] ? (
                         <div className="planned-meal">
-                          <div className="meal-image">
-                            <img src={weeklyPlan[day][type].image} alt={weeklyPlan[day][type].title} />
-                          </div>
+                          <img src={weeklyPlan[day][type].image} alt={weeklyPlan[day][type].title} />
                           <div className="meal-info">
                             <h4>{weeklyPlan[day][type].title}</h4>
-                            <div className="meal-stats">
-                              <span>{weeklyPlan[day][type].calories} cal</span>
-                              <span>{weeklyPlan[day][type].time}</span>
-                            </div>
+                            <span>{weeklyPlan[day][type].calories} cal</span>
                           </div>
                         </div>
                       ) : (
                         <div className="empty-slot">
-                          <span className="add-icon">+</span>
-                          <span>Add {type}</span>
+                          <span>+ Add {type}</span>
                         </div>
                       )}
                     </div>
@@ -283,33 +338,12 @@ const MealPlanning = () => {
         )}
       </div>
 
-      {/* Recipe Selection Modal */}
-      {editMode && (
-        <div className="recipe-modal">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Select Recipe for {selectedMeal?.type}</h2>
-              <button className="close-btn" onClick={() => setEditMode(false)}>×</button>
-            </div>
-            <div className="recipe-search">
-              <input type="text" placeholder="Search recipes..." />
-            </div>
-            <div className="recipe-grid">
-              {/* Recipe cards would go here */}
-              <div className="recipe-card" onClick={() => handleMealSelect(sampleRecipe)}>
-                <img src={sampleRecipe.image} alt={sampleRecipe.title} />
-                <div className="recipe-card-content">
-                  <h3>{sampleRecipe.title}</h3>
-                  <div className="recipe-card-stats">
-                    <span>{sampleRecipe.calories} cal</span>
-                    <span>{sampleRecipe.time}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <RecipeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        selectedMeal={selectedMeal}
+        onSave={handleSaveRecipe}
+      />
       <Footer />
     </div>
   );
