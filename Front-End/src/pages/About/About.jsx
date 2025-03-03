@@ -1,15 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './about.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   const stats = [
-    { number: '10K+', label: 'Active Users' },
-    { number: '50K+', label: 'Recipes' },
-    { number: '100+', label: 'Countries' },
-    { number: '4.8', label: 'Average Rating' }
+    { number: 10000, label: 'Active Users' },
+    { number: 50000, label: 'Recipes' },
+    { number: 100, label: 'Countries' },
+    { number: 4.8, label: 'Average Rating' }
   ];
+
+  // State for animated numbers
+  const [animatedStats, setAnimatedStats] = useState(
+    stats.map(() => 0) // Initialize all counters at 0
+  );
+
+  useEffect(() => {
+    const intervals = stats.map((stat, index) => {
+      let startValue = 0;
+      const endValue = stat.number;
+      const duration = 2000; // 2 seconds animation
+      const increment = endValue / (duration / 50); // Control speed
+
+      return setInterval(() => {
+        setAnimatedStats((prev) => {
+          const newStats = [...prev];
+          if (newStats[index] < endValue) {
+            newStats[index] = Math.min(newStats[index] + increment, endValue);
+          }
+          return newStats;
+        });
+      }, 50);
+    });
+
+    return () => intervals.forEach(clearInterval); // Cleanup intervals
+  }, []);
 
   const teamMembers = [
     {
@@ -35,11 +62,16 @@ const About = () => {
   return (
     <div className="about-page">
       <Header />
+      
       {/* Hero Section */}
       <section className="about-hero">
         <div className="hero-content">
           <h1>Our Story</h1>
-          <p>Bringing people together through the love of food</p>
+
+          <p> 
+         <Link to="http://localhost:5173/" className='LINK'>
+         <span className='site'>TheRecipeBook</span> 
+         </Link> is a meal-planning web app that helps you discover, organize, and plan delicious recipes effortlessly. From quick bites to gourmet feasts, unleash your inner chef and simplify meal prep today! 🍽️✨ </p>
         </div>
       </section>
 
@@ -58,7 +90,7 @@ const About = () => {
           <div className="stats-grid">
             {stats.map((stat, index) => (
               <div key={index} className="stat-card">
-                <h3>{stat.number}</h3>
+                <h3>{Math.round(animatedStats[index]).toLocaleString()}</h3>
                 <p>{stat.label}</p>
               </div>
             ))}
@@ -122,6 +154,9 @@ const About = () => {
           <div className="contact-content">
             <h2>Get in Touch</h2>
             <p>Have questions or suggestions? We'd love to hear from you!</p>
+            
+            <Link to="/Contact">
+         
             <button className="contact-btn">
               Contact Us
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -129,12 +164,14 @@ const About = () => {
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </button>
+            </Link>
           </div>
         </div>
       </section>
+
       <Footer />
     </div>
   );
 };
 
-export default About; 
+export default About;

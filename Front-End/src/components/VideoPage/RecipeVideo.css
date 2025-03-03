@@ -1,0 +1,122 @@
+/* General Styles */
+.video-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #2D3E50;
+  background-color: #F8FAFC;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+/* Header Section */
+.video-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  animation: slideIn 1s ease-out;
+}
+
+.video-description {
+  font-size: 1.2rem;
+  color: #4A5568;
+  margin-top: 10px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Ingredients & Instructions */
+.ingredients-container, .instructions-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+}
+
+.ingredients-container h3, .instructions-container h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+.ingredients-container ul, .instructions-container ol {
+  padding-left: 20px;
+}
+
+.ingredients-container li, .instructions-container li {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #4A5568;
+}
+
+.ingredients-container:hover {
+  transition: ease-in-out .5s;
+  color: white;
+  cursor: pointer;
+ 
+}
+
+.ingredients-container:hover h3 {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Video Section */
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.recipe-video {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 1s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .video-title {
+    font-size: 2rem;
+  }
+  .video-description {
+    font-size: 1rem;
+  }
+}
