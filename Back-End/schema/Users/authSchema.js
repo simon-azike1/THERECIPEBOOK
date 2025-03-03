@@ -25,6 +25,10 @@ const authSchema = Schema({
     type: Boolean,
     default: false
   },
+  isApproved: {
+    type: Boolean,
+    default: false
+  },
   verificationToken : {
     type: String,
   },
@@ -34,4 +38,4 @@ const authSchema = Schema({
   }
 }, { timestamps: true })
 
-export const Auth= mongoose.model('Auth', authSchema)
+export const User = mongoose.model('User', authSchema)
