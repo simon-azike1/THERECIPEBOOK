@@ -7,6 +7,8 @@ import Register from './pages/Register/Register';
 import RecipePage from './pages/RecipePage/RecipePage';
 import About from './pages/About/About';
 import MealPlanning from './pages/MealPlanning/MealPlanning';
+import RecipeVideo from './components/VideoPage/RecipeVideo'
+import Contact from './pages/Contacts/Contact';
 
 const App = () => {
   return (
@@ -18,6 +20,9 @@ const App = () => {
         <Route path='/recipe' element={<RecipePage />} />
         <Route path='/about' element={<About />} />
         <Route path='/meal-planning' element={<MealPlanning />} />
+        <Route path='/RecipeVideo' element={<RecipeVideo />} />
+        <Route path='/Contact' element={<Contact />} />
+      
       </Routes>
     </div>
   );

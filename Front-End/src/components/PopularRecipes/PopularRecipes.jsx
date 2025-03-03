@@ -1,5 +1,6 @@
 import React from 'react';
 import './popularRecipes.css';
+import { Link } from 'react-router-dom';
 
 const PopularRecipes = () => {
   const recipes = [
@@ -50,15 +51,20 @@ const PopularRecipes = () => {
         <div className="section-header">
           <div className="header-content">
             <h2>Popular Recipes</h2>
-            <p>Discover our community's most loved recipes</p>
+            <p>Discover our community’s most loved recipes, shared with love and enjoyed by all!
+            </p>
           </div>
-          <button className="view-all-btn">
+
+         <Link to="/recipe" className='LINK'> <button className="view-all-btn"> 
             View All Recipes
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
-          </button>
+          </button></Link> 
+          
+         
+          
         </div>
 
         <div className="recipes-grid">

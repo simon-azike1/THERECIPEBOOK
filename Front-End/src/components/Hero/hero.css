@@ -175,6 +175,12 @@
 
 .LINK{
   text-decoration: none;
+  transform: scale(1.02);
+}
+
+.LINK :hover{
+color: var(--primary-yellow);
+transition: 0.4s;
 }
 /* Floating Cards */
 .floating-card {

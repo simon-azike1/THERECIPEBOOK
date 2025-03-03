@@ -4,7 +4,7 @@
 
 /* Hero Section */
 .about-hero {
-  height: 60vh;
+  height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
               url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80') center/cover;
   display: flex;
@@ -13,6 +13,7 @@
   text-align: center;
   color: white;
   padding: 2rem;
+  background-attachment: fixed;
 }
 
 .hero-content h1 {
@@ -20,6 +21,7 @@
   font-weight: 700;
   margin-bottom: 1rem;
   animation: fadeInUp 0.8s ease;
+  
 }
 
 .hero-content p {
@@ -27,7 +29,12 @@
   opacity: 0.9;
   animation: fadeInUp 0.8s ease 0.2s forwards;
   opacity: 0;
+  line-height: 1.5;
 }
+
+
+
+
 
 /* Container */
 .container {
@@ -247,6 +254,18 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
+
+
+.site {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+} 
+
+
 
 /* Animations */
 @keyframes fadeInUp {

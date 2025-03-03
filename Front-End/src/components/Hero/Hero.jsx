@@ -1,8 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './hero.css';
 
 const Hero = () => {
+  // Initial stats data
+  const statsData = [
+    { number: 15000, label: 'Active Cooks' },
+    { number: 50000, label: 'Recipes' },
+    { number: 4.9, label: 'User Rating' }
+  ];
+
+  // State for animated counters
+  const [counters, setCounters] = useState(statsData.map(() => 0));
+
+  useEffect(() => {
+    const durations = [2000, 2000, 1500]; // Duration for each counter animation
+    const intervalIds = statsData.map((stat, index) => {
+      let start = 0;
+      const increment = Math.ceil(stat.number / (durations[index] / 30)); // Increment per frame
+      return setInterval(() => {
+        setCounters(prev => {
+          const newCounters = [...prev];
+          newCounters[index] = Math.min(newCounters[index] + increment, stat.number);
+          return newCounters;
+        });
+      }, 30);
+    });
+
+    // Cleanup intervals
+    return () => intervalIds.forEach(id => clearInterval(id));
+  }, []);
+
   return (
     <section className="hero">
       <div className="hero-overlay"></div>
@@ -17,13 +45,17 @@ const Hero = () => {
             and share your favorite recipes with food enthusiasts worldwide.
           </p>
           <div className="hero-cta">
-       <Link to= "/Register"  className='LINK'>   <button className="cta-button primary">
-              Start Cooking
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </button></Link> 
+            <Link to="/Register" className="LINK">
+              <button className="cta-button primary">
+                Start Cooking
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </Link>
+
+            <Link to="./RecipeVideo" className='LINK'>
             <button className="cta-button secondary">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -31,22 +63,24 @@ const Hero = () => {
               </svg>
               Watch Video
             </button>
+            </Link>
+            
           </div>
+
+          {/* Stats Section */}
           <div className="hero-stats">
-            <div className="stat-item">
-              <span className="stat-number">15k+</span>
-              <span className="stat-label">Active Cooks</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-number">50k+</span>
-              <span className="stat-label">Recipes</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-number">4.9</span>
-              <span className="stat-label">User Rating</span>
-            </div>
+            {statsData.map((stat, index) => (
+              <div key={index} className="stat-item">
+                <span className="stat-number">
+                  {stat.label === 'User Rating' ? counters[index].toFixed(1) : `${counters[index]}+`}
+                </span>
+                <span className="stat-label">{stat.label}</span>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* Hero Image Section */}
         <div className="hero-image-section">
           <div className="hero-image-container">
             <div className="hero-image"></div>
