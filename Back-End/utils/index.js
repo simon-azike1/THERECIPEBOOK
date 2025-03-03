@@ -156,7 +156,7 @@ export const sendEmail = async (to, subject, text, template, context) => {
 
   const mailOptions = {
     from: {
-      name: 'Docify App',
+      name: 'The Recipe Book',
       address: process.env.NODEMAILER_MAIL
     },
     to: Array.isArray(to) ? to.join(', ') : to,

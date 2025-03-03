@@ -3,69 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Your Email - Docify</title>
+    <title>Welcome to The Recipe Book</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f7f7f7;
         }
         .container {
             max-width: 600px;
             margin: 40px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .logo {
             text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo-text {
+            color: #2B4C7E;
+            font-size: 28px;
+            font-weight: bold;
         }
         h1 {
-            color: #333;
+            color: #2B4C7E;
             font-size: 24px;
             margin-bottom: 20px;
+            text-align: center;
         }
         p {
-            margin-bottom: 20px;
+            color: #555;
             font-size: 16px;
-            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.8;
         }
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            color: #777;
+        .welcome-message {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
         }
         .button {
             display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
+            padding: 14px 32px;
+            margin: 25px 0;
             font-size: 16px;
-            color: #fff;
-            background-color: #007BFF;
-            border-radius: 5px;
+            color: #ffffff;
+            background-color: #4F9D69;
+            border-radius: 8px;
             text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
         }
         .button:hover {
-            background-color: #0056b3;
+            background-color: #3d7b52;
         }
-        @media (max-width: 600px) {
-            .container {
-                margin: 20px;
-                padding: 10px;
-            }
+        .features {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .feature-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .feature-item:before {
+            content: "•";
+            color: #4F9D69;
+            font-size: 20px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+        .social-links {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .social-links a {
+            color: #2B4C7E;
+            margin: 0 10px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Docify</h1>
-        <p>Hello {{name}},</p>
-        <p>Thank you for registering with Docify. We are revolutionizing healthcare with AI-powered solutions. Our platform offers personalized medical assistance, virtual consultations, health monitoring, and more to enhance patient care and reduce hospital visits.</p>
-        <p>Please click the button below to verify your email address and get started:</p>
-        <a href="{{verificationUrl}}" class="button">Verify Email</a>
+        <div class="logo">
+            <span class="logo-text">The Recipe Book</span>
+        </div>
+        
+        <h1>Welcome to Our Culinary Community!</h1>
+        
+        <p class="welcome-message">Hello {{name}},</p>
+        
+        <p>Thank you for joining The Recipe Book! We're excited to have you as part of our growing community of food enthusiasts, home chefs, and culinary explorers.</p>
+        
+        <div class="features">
+            <div class="feature-item">Create and share your favorite recipes</div>
+            <div class="feature-item">Discover dishes from around the world</div>
+            <div class="feature-item">Plan your meals with our smart planner</div>
+            <div class="feature-item">Connect with fellow food lovers</div>
+        </div>
+        
+        <p>To start your culinary journey with us, please verify your email address:</p>
+        
+        <div style="text-align: center;">
+            <a href="{{verificationUrl}}" class="button">Verify Email Address</a>
+        </div>
+        
+        <p style="font-size: 14px; color: #666;">If you didn't create an account with The Recipe Book, you can safely ignore this email.</p>
+        
         <div class="footer">
-            <p>© 2024 Docify. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a> • 
+                <a href="#">Instagram</a> • 
+                <a href="#">Twitter</a>
+            </div>
+            <p>© 2024 The Recipe Book. All rights reserved.</p>
+            <p>123 Culinary Street, Foodie City, FC 12345</p>
         </div>
     </div>
 </body>
