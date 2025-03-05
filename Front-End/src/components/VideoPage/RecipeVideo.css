@@ -62,7 +62,7 @@
 }
 
 .ingredients-container:hover h3 {
-  transform: scale(1.1);
+  transform: ease-in; 
   transition: transform 0.3s ease-in-out;
 }
 

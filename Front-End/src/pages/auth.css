@@ -59,14 +59,16 @@
 
 .input-wrapper {
   position: relative;
+  /* background-color: red; */
   display: flex;
   align-items: center;
 }
 
 .input-wrapper svg {
   position: absolute;
-  left: 1rem;
+  right: 1rem;
   color: #666;
+  margin:10px;
 }
 
 .input-wrapper input {
