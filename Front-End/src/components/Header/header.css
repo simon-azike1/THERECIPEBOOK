@@ -179,6 +179,7 @@
 
 @media (max-width: 1024px) {
   .header-container {
+
     padding: 1rem 1.5rem;
   }
   
@@ -194,46 +195,34 @@
 
 @media (max-width: 768px) {
   .header-container {
-    padding: 0.5rem 1rem; /* Adjust padding for smaller screens */
+    padding: 0.5rem 1rem; 
   }
   
   .logo-text {
-    font-size: 1.2rem; /* Reduce logo text size */
+    font-size: 1.2rem; 
   }
 
   .nav-links {
-    gap: 1rem; /* Adjust gap for nav links */
-    font-size: 0.8rem; /* Reduce font size for nav links */
-  }
-
-  .auth-buttons {
-    gap: 0.3rem; /* Adjust gap for auth buttons */
-  }
-
-  .mobile-menu-btn {
-    display: block;
-  }
-  
-  .nav-links {
-    position: fixed;
-    right: -100%; /* Adjust to start off-screen */
-    width: 70%;
-    height: 100vh;
-    background-color: var(--white);
+    display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: -100%; 
+    width: 70%;
+    height: 100vh; 
+    background-color:white;
     justify-content: center;
     padding: 2rem;
-    transition: right 0.3s ease;
+    transition: left 0.3s ease;
     border-left: 4px solid var(--primary-yellow);
+    z-index: 1000; 
   }
 
-  
   .nav-links.active {
-    right: 0; /* Ensure it slides in from the left */
+    left: 0; 
     animation: slideIn 0.3s ease-in-out;
   }
 
-  
   .auth-buttons {
     flex-direction: column;
     width: 100%;
@@ -247,21 +236,30 @@
     width: 100%;
     padding: 0.75rem 1.5rem;
   }
+
+  .mobile-menu-btn {
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    z-index: 1100;
+  }
 }
+
 
 @media (max-width: 480px) {
   .header-container {
-    padding: 0.5rem; /* Further reduce padding for very small screens */
+    padding: 0.5rem; 
   }
 
   .nav-links {
-    width: 100%; /* Ensure nav links take full width */
-    padding: 1rem; /* Add padding for better touch targets */
+    width: 100%; 
+    padding: 1rem;
   }
 
   .login-btn, .signup-btn {
-    width: 100%; /* Ensure buttons take full width */
-    padding: 1rem; /* Increase padding for touch targets */
+    width: 100%; 
+    padding: 1rem; /
   }
 }
 
