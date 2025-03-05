@@ -1,12 +1,12 @@
 import { BAD_REQUEST, SUCCESS, VALIDATION_ERROR, NOT_FOUND, UNAUTHORIZED } from '../../constants/statusCode.js'
-import { Auth } from '../../schema/userSchemas/authSchema.js'
+import { User } from '../../schema/Users/authSchema.js'
 import { messageHandler, passwordValidator, hashPassword, verifyPassword, generateToken, sendEmail, verifyToken } from '../../utils/index.js'
 
 
 export const  registerService = async ({data}, callback) => {
     let { name, email, password, confirmPassword } = data
 
-    Auth.findOne({ email }).exec( async (err, user) => {
+    User.findOne({ email }).exec( async (err, user) => {
       if(user){
         return callback(messageHandler("Email already exists", false, BAD_REQUEST, {}))
       }
@@ -21,7 +21,7 @@ export const  registerService = async ({data}, callback) => {
     
        if(password) {
         const hashedPassword = await hashPassword(password)
-        const user = new Auth({
+        const user = new User({
           name,
           email,
           password: hashedPassword
@@ -46,7 +46,7 @@ export const  registerService = async ({data}, callback) => {
 export const loginService = ({data}, callback) => {
   let {email, password} = data
 
-  Auth.findOne({email}).exec( async ( err, user) => {
+  User.findOne({email}).exec( async ( err, user) => {
 
       if(err){
           return callback(messageHandler("Something went wrong...", false, BAD_REQUEST, {}))
@@ -97,7 +97,7 @@ export const verifyEmailService = async ({ token }, callback) => {
   const tokenVerification = verifyToken(token)
 
   const { decoded } = tokenVerification
-  const user = await Auth.findOne({ email: decoded.email })
+  const user = await User.findOne({ email: decoded.email })
 
     if (!user) {
       return callback(messageHandler('Invalid token', false, UNAUTHORIZED))
