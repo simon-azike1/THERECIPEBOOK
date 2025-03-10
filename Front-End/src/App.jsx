@@ -9,6 +9,7 @@ import About from './pages/About/About';
 import MealPlanning from './pages/MealPlanning/MealPlanning';
 import RecipeVideo from './components/VideoPage/RecipeVideo'
 import Contact from './pages/Contacts/Contact';
+import AdminLogin from './components/AdminScreen/AdminLong';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path='/meal-planning' element={<MealPlanning />} />
         <Route path='/RecipeVideo' element={<RecipeVideo />} />
         <Route path='/Contact' element={<Contact />} />
+        <Route path='/AdminLogin' element={<AdminLogin />} />
       
       </Routes>
     </div>
