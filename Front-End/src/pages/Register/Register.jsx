@@ -32,7 +32,8 @@ const Register = () => {
             <p>Join our community of food enthusiasts</p>
           </div>
           
-          <form className="auth-form" onSubmit={handleSubmit}>
+          <form className="auth-form fadeInUp" onSubmit={handleSubmit}>
+
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <div className="input-wrapper">
@@ -152,4 +153,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Register;

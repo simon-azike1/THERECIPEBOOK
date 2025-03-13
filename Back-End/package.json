@@ -6,13 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"nodemon --exec babel-node index.js\"",
-    "dev": "concurrently \"nodemon --exec babel-node index.js\"",
+    "start": "concurrently -n server -c #32a852 \"nodemon --exec babel-node index.js\"",
+    "dev": "concurrently -n server -c #32a852 \"nodemon --exec babel-node index.js\"",
     "swagger": "node ./swagger/swagger.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.26.0",
     "@babel/node": "^7.26.0",

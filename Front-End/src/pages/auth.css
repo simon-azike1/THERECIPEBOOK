@@ -59,14 +59,16 @@
 
 .input-wrapper {
   position: relative;
+  /* background-color: red; */
   display: flex;
   align-items: center;
 }
 
 .input-wrapper svg {
   position: absolute;
-  left: 1rem;
+  right: 1rem;
   color: #666;
+  margin:10px;
 }
 
 .input-wrapper input {
@@ -75,8 +77,13 @@
   border: 2px solid #eee;
   border-radius: 50px;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, transform 0.3s ease; /* Added transform transition */
 }
+
+.input-wrapper input:focus {
+  transform: scale(1.02); /* Slightly enlarge the input on focus */
+}
+
 
 .input-wrapper input:focus {
   border-color: var(--primary-blue);
@@ -114,8 +121,13 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, transform 0.3s ease; /* Added transform transition */
 }
+
+.auth-button:hover {
+  transform: translateY(-2px) scale(1.05); /* Slightly enlarge the button on hover */
+}
+
 
 .auth-button:hover {
   background: var(--light-blue);
@@ -271,4 +283,4 @@
 
 .auth-wrapper {
   animation: fadeInUp 0.5s ease forwards;
-} 
+}
