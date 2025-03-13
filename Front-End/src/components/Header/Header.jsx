@@ -29,7 +29,7 @@ const Header = () => {
           <Link to="/meal-planning" onClick={() => setIsMenuOpen(false)}>Meal Planner</Link>
           <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
           <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
-          <Link to="/AdminLogin" onClick={()=>setIsMenuOpen(false)}>Admin</Link>
+          <Link to="/admin-login" onClick={()=>setIsMenuOpen(false)}>Admin</Link>
           <div className="auth-buttons">
             <Link to="/login" className="login-btn">Login</Link>
             <Link to="/register" className="signup-btn" style={{ textDecoration: 'none', color: 'white' }}>Register</Link>
