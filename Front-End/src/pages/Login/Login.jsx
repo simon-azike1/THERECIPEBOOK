@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, reset } from '../../features/auth/authSlice';
+import toast from 'react-hot-toast';
 import '../auth.css';
 
 const Login = () => {
@@ -9,6 +12,23 @@ const Login = () => {
     rememberMe: false
   });
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, isLoading, isSuccess, isError, message } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess && user) {
+      toast.success('Login successful!');
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, message, user, navigate, dispatch]);
+
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setFormData({
@@ -17,10 +37,10 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Form submitted:', formData);
+    const { email, password } = formData;
+    dispatch(login({ email, password }));
   };
 
   return (
@@ -86,8 +106,16 @@ const Login = () => {
               </Link>
             </div>
 
-            <button type="submit" className="auth-button">
-              Sign In
+            <button 
+              type="submit" 
+              className="auth-button" 
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className="loading-spinner">Loading...</span>
+              ) : (
+                'Sign In'
+              )}
             </button>
 
             <div className="social-login">

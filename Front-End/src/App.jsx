@@ -1,5 +1,6 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
 import "./index.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -11,27 +12,53 @@ import RecipeVideo from "./components/VideoPage/RecipeVideo";
 import Contact from "./pages/Contacts/Contact";
 import AdminLogin from "./components/AdminScreen/AdminLong";
 import AdminDashboard from "./components/AdminDashBoard/Dashboard";
+import PrivateRoute from './components/PrivateRoute';
+import EmailVerification from './pages/EmailVerification/EmailVerification';
 
 const App = () => {
   return (
     <div className="app">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 5000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            style: {
+              background: '#4caf50',
+            },
+          },
+          error: {
+            style: {
+              background: '#f44336',
+            },
+          },
+        }}
+      />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/recipe" element={<RecipePage />} />
+        <Route path="/confirm-email" element={<EmailVerification />} />
         <Route path="/about" element={<About />} />
-        <Route path="/meal-planning" element={<MealPlanning />} />
-        <Route path="/RecipeVideo" element={<RecipeVideo />} />
         <Route path="/Contact" element={<Contact />} />
-        <Route path="/AdminLogin" element={<AdminLogin />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
 
-        {/* Nested Admin Dashboard Routes */}
-        <Route path="/AdminDashboard" element={<AdminDashboard />}>
+        {/* Protected Routes */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/recipe" element={<RecipePage />} />
+          <Route path="/meal-planning" element={<MealPlanning />} />
+          <Route path="/RecipeVideo" element={<RecipeVideo />} />
+        </Route>
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<Outlet />}>
+          <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="recipe" element={<RecipePage />} />
-          {/* Add more nested routes inside AdminDashboard */}
-          {/* Example: <Route path="metrics" element={<Metrics />} /> */}
         </Route>
       </Routes>
     </div>
