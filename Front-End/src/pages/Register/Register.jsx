@@ -1,26 +1,58 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { register, reset } from '../../features/auth/authSlice';
+import toast from 'react-hot-toast';
 import '../auth.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isLoading, isSuccess, isError, message } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      toast.success('Registration successful! Please check your email to verify your account.');
+      navigate('/login');
+    }
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [isSuccess, isError, message, navigate, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log('Form submitted:', formData);
+    
+    if (formData.password !== formData.confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast.error('Password must be at least 6 characters long');
+      return;
+    }
+
+    dispatch(register(formData));
+  };
+
+  const handleChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   return (
@@ -29,13 +61,12 @@ const Register = () => {
         <div className="auth-left">
           <div className="auth-header">
             <h1>Create Account</h1>
-            <p>Join our community of food enthusiasts</p>
+            <p>Join our community of food lovers</p>
           </div>
-          
-          <form className="auth-form fadeInUp" onSubmit={handleSubmit}>
 
+          <form className="auth-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="name">Full Name</label>
               <div className="input-wrapper">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -43,11 +74,11 @@ const Register = () => {
                 </svg>
                 <input
                   type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  placeholder="Enter your username"
+                  placeholder="Enter your full name"
                   required
                 />
               </div>
@@ -85,7 +116,7 @@ const Register = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   required
                 />
               </div>
@@ -110,42 +141,29 @@ const Register = () => {
               </div>
             </div>
 
-            <button type="submit" className="auth-button">
-              Create Account
+            <button 
+              type="submit" 
+              className="auth-button" 
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className="loading-spinner">Loading...</span>
+              ) : (
+                'Create Account'
+              )}
             </button>
-          </form>
 
-          <p className="auth-footer">
-            Already have an account? <Link to="/login">Login here</Link>
-          </p>
+            <div className="auth-footer">
+              Already have an account? <Link to="/login">Sign in</Link>
+            </div>
+          </form>
         </div>
 
         <div className="auth-right">
           <div className="auth-feature">
             <h2>Join TheRecipeBook Community</h2>
-            <div className="feature-list">
-              <div className="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-                <span>Create and share your recipes</span>
-              </div>
-              <div className="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-                <span>Plan your weekly meals</span>
-              </div>
-              <div className="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-                <span>Connect with other food lovers</span>
-              </div>
-            </div>
+            <p>Create, share, and discover amazing recipes with food lovers around the world.</p>
+            <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80" alt="Cooking" className="auth-image" />
           </div>
         </div>
       </div>
