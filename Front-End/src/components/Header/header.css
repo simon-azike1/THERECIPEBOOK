@@ -16,8 +16,7 @@
 }
 
 .header {
-  background-color: var(--white);
-  box-shadow: 0 2px 8px rgba(43, 76, 126, 0.1);
+  box-shadow: 0 2px 8px rgba(30, 54, 88, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -33,9 +32,10 @@
 }
 
 .logo {
-  display: flex;
-  align-items: center;
+   display: flex;
+  align-items: center; 
   z-index: 100;
+
 }
 
 .logo-text {
