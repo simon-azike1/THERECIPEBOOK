@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #ecf0f1;
+}
+
+/* Flexbox layout for the entire dashboard */
+.dashboard {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 250px;
+  background-color: #34495e;
+  color: white;
+  padding: 20px;
+  border-right: 2px solid #bdc3c7;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 10px;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover {
+  background-color: #2980b9;
+}
+
+/* Main content styling */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto; /* Allows scrolling within the main content */
+  background-color: #f7f9fa;
+}
+
+/* Header styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header input {
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+}
+
+.header button {
+  padding: 10px 15px;
+  margin-left: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.header button:hover {
+  background-color: #2980b9;
+}
+
+/* Metrics styling */
+.metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  flex: 1;
+  margin: 10px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Table styling */
+.admin-tasks-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-tasks-table th {
+  background-color: #2980b9;
+  color: white;
+  padding: 15px;
+}
+
+.admin-tasks-table td {
+  padding: 15px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.admin-tasks-table tr:hover {
+  background-color: #f2f2f2;
+}
+
+.admin-tasks-table button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-tasks-table button:nth-child(1) {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.admin-tasks-table button:nth-child(2) {
+  background-color: #f39c12;
+  color: white;
+}
+
+.admin-tasks-table button:nth-child(3) {
+  background-color: #3498db;
+  color: white;
+}
+
+.admin-tasks-table button:nth-child(4) {
+  background-color: #e74c3c;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
