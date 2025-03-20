@@ -44,16 +44,19 @@
 }
 
 .logo {
+  background-color: var(--primary-blue);
   text-decoration: none;
   z-index: 100;
   flex-shrink: 0;
   margin-right: 2rem;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary-blue);
+  color: var(--white);
   letter-spacing: -0.5px;
   transition: all 0.3s ease;
 }
@@ -105,38 +108,33 @@
   width: 100%;
 }
 
-.auth-buttons {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
+
 
 .login-btn, .signup-btn, .logout-btn {
-  padding: 0.5rem 1.5rem;
-  border-radius: 25px;
+  margin: 20px;
+  padding: 20px;
+ 
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
+  
 }
 
 .login-btn {
-  color: var(--primary-blue);
-  border: 2px solid var(--primary-blue);
-  background: transparent;
+
+  padding: 20p;
+  color: white;
+  
 }
 
-.signup-btn {
-  background: var(--primary-blue);
-  color: var(--white);
-  border: none;
-}
 
 .logout-btn {
   background: var(--primary-green);
   color: var(--white);
   border: none;
 }
+
 
 .user-menu {
   display: flex;
@@ -215,11 +213,11 @@
   .header-container {
     gap: 2rem;
   }
-  
+
   .logo {
     margin-right: 1.5rem;
   }
-  
+
   .nav-items {
     gap: 2rem;
   }
@@ -260,7 +258,7 @@
   }
 
   .login-btn, .signup-btn, .logout-btn {
-    width: 100%;
+    width: 100%; /* Full width on mobile screens */
     text-align: center;
   }
 
@@ -280,6 +278,10 @@
 
   .logo-text {
     font-size: 1.3rem;
+  }
+
+  .auth-buttons {
+    gap: 1rem;
   }
 }
 

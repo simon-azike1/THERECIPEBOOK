@@ -12,27 +12,29 @@ const Header = () => {
   const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(prevState => !prevState);
 
   const handleLogout = () => {
     dispatch(logout());
     setIsMenuOpen(false);
   };
+
+  const navLinks = [
+    { to: '/', text: 'Home' },
+    { to: '/recipe', text: 'Recipes' },
+    { to: '/meal-planning', text: 'Meal Planner' },
+    { to: '/about', text: 'About' },
+    { to: '/contact', text: 'Contact' },
+  ];
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
@@ -51,33 +53,25 @@ const Header = () => {
 
         <nav className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
           <div className="nav-items">
-            <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
-              Home
-            </Link>
-            <Link to="/recipe" className={location.pathname === '/recipe' ? 'active' : ''}>
-              Recipes
-            </Link>
-            <Link to="/meal-planning" className={location.pathname === '/meal-planning' ? 'active' : ''}>
-              Meal Planner
-            </Link>
-            <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>
-              About
-            </Link>
-            <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>
-              Contact
-            </Link>
+            {navLinks.map(({ to, text }) => (
+              <Link 
+                key={to} 
+                to={to} 
+                className={location.pathname === to ? 'active' : ''}
+              >
+                {text}
+              </Link>
+            ))}
           </div>
 
           <div className="auth-buttons">
             {user ? (
-              <>
-                <div className="user-menu">
-                  <span className="user-name">{user.name}</span>
-                  <button onClick={handleLogout} className="logout-btn">
-                    Logout
-                  </button>
-                </div>
-              </>
+              <div className="user-menu">
+                <span className="user-name">{user.name}</span>
+                <button onClick={handleLogout} className="logout-btn">
+                  Logout
+                </button>
+              </div>
             ) : (
               <>
                 <Link to="/login" className="login-btn">Login</Link>
