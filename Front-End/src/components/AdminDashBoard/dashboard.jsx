@@ -27,7 +27,7 @@ const adminDashboard = () => {
           <li><a href="/manage-languages">Languages</a></li>
           <li><a href="/manage-metrics">Metrics</a></li>
           <li><a href="/content">Content</a></li>
-          <li><a href="/settings">Settings</a></li>
+          <li><a href="/settings">Settings iwiuoajkakjfkjh</a></li>
         
         </ul>
       </div>
