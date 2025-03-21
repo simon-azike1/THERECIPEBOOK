@@ -11,7 +11,7 @@ const authService = {
   login: async (credentials) => {
     const response = await axios.post(`${BASE_URL}/login`, credentials);
     if (response.data.result.data.token) {
-      localStorage.setItem('token', response.data.result.data.token);
+      localStorage.setItem('userToken', response.data.result.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.result.data.user));
     }
     return response.data;
@@ -23,8 +23,18 @@ const authService = {
   },
 
   logout: () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userToken');
     localStorage.removeItem('user');
+  },
+
+  sendResetEmail: async (email) => {
+    const response = await axios.post(`${BASE_URL}/forgot-password`, { email });
+    return response.data;
+  },
+
+  resetPassword: async (token, password) => {
+    const response = await axios.post(`${BASE_URL}/reset-password`, { token, password });
+    return response.data;
   }
 };
 

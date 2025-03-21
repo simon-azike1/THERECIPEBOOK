@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import './mealPlanning.css';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 const MealPlanningForm = () => {
   const [formData, setFormData] = useState({
@@ -93,6 +95,7 @@ const MealPlanningForm = () => {
 
   return (
     <div className="meal-planning-page">
+      <Header />
       <div className="meal-planning-container">
         <div className="page-header">
           <h1>Create New Recipe</h1>
@@ -368,6 +371,7 @@ const MealPlanningForm = () => {
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };

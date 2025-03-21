@@ -21,13 +21,15 @@ const Login = () => {
       toast.error(message);
     }
 
-    if (isSuccess && user) {
+    if (isSuccess || user) {
       toast.success('Login successful!');
-      navigate('/');
+      navigate('/meal-planning');
     }
 
-    dispatch(reset());
-  }, [isError, isSuccess, message, user, navigate, dispatch]);
+    return () => {
+      dispatch(reset());
+    };
+  }, [isError, isSuccess, user, message, navigate, dispatch]);
 
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
