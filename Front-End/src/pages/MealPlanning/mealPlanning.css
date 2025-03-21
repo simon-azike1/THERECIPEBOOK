@@ -2,6 +2,7 @@
   padding: 5rem 0rem 0rem 0rem;
   background-color: var(--off-white);
   min-height: 100vh;
+
 }
 
 .meal-planning-container {
@@ -114,6 +115,7 @@
 .cancel-btn,
 .add-btn,
 .remove-btn {
+ 
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 500;
@@ -146,10 +148,16 @@
   background: #f0f0f0;
 }
 
+.add-remove-btn{
+  display: flex
+}
+
 .add-btn {
-  background: #4caf50;
+  padding: 15px;
+  background: var(--text-dark);
   color: white;
   border: none;
+  margin: 10px;
 }
 
 .add-btn:hover {
@@ -157,7 +165,7 @@
 }
 
 .remove-btn {
-  background: #f44336;
+  background: var(--light-blue);
   color: white;
   border: none;
 }

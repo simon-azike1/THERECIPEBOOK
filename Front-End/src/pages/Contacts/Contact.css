@@ -18,11 +18,11 @@ body{
   position: relative;
   background: #f4f4f9  url("https://plus.unsplash.com/premium_photo-1694141252026-3df1de888a21?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG5pZ2VyaWFuJTIwcmVjaXBlfGVufDB8fDB8fHww") 
     center / cover no-repeat fixed;
-  height: 50vh;
+  height: 60vh;
   width: 100%;
-  margin: 30px auto;
+  margin-top: 80px;
   padding: 2rem 1.5rem;
-  border-radius: 8px;
+ 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   overflow: hidden;
@@ -41,13 +41,14 @@ body{
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  background: rgba(0, 0, 0, 0.5); 
   border-radius: 8px;
 }
 
 .contact-header h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  margin-top: 2rem;
   text-align: center;
   color:white !important;
   position: relative;
@@ -58,6 +59,7 @@ body{
   line-height: 1.5;
   text-align: center;
   margin-bottom: 2rem;
+  margin-top: 1rem;
   color: white !important;
   position: relative;
 }

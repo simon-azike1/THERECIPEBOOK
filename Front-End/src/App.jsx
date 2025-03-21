@@ -11,7 +11,7 @@ import MealPlanning from "./pages/MealPlanning/MealPlanning";
 import RecipeVideo from "./components/VideoPage/RecipeVideo";
 import Contact from "./pages/Contacts/Contact";
 import AdminLogin from "./components/AdminScreen/AdminLong";
-import AdminDashboard from "./components/AdminDashBoard/Dashboard";
+import AdminDashboard from "./components/AdminDashBoard/dashboard";
 import PrivateRoute from './components/PrivateRoute';
 import EmailVerification from './pages/EmailVerification/EmailVerification';
 

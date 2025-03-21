@@ -255,23 +255,29 @@ const MealPlanningForm = () => {
                     required
                   />
                 </div>
-                <button 
+
+              <div className="add-remove-btn">
+              <button 
                   type="button" 
-                  className="remove-btn"
+                  className="add-btn remove-btn"
                   onClick={() => removeIngredient(index)}
                 >
                   Remove
                 </button>
-              </div>
-            ))}
-            
-            <button 
+                <button 
               type="button" 
               className="add-btn"
               onClick={addIngredient}
             >
               Add Ingredient
             </button>
+
+              </div>
+
+              </div>
+            ))}
+            
+           
           </section>
 
           {/* Instructions Section */}
