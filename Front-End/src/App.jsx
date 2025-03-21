@@ -45,7 +45,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/confirm-email" element={<EmailVerification />} />
         <Route path="/about" element={<About />} />
-        <Route path="/Contact" element={<Contact />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Protected Routes */}

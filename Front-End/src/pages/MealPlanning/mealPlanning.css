@@ -1,5 +1,5 @@
 .meal-planning-page {
-  padding: 4rem 2rem;
+  padding: 4rem 0rem 0rem 0rem;
   background-color: var(--off-white);
   min-height: 100vh;
 }
@@ -7,6 +7,8 @@
 .meal-planning-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .page-header {

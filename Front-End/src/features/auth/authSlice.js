@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from '../../services/authService';
 
 const user = JSON.parse(localStorage.getItem('user'));
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('userToken');
 
 const initialState = {
   user: user || null,
@@ -81,7 +81,7 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = action.payload.message;
+        state.message = action.payload.result.message;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
@@ -95,9 +95,9 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload.data.user;
-        state.token = action.payload.data.token;
-        state.message = action.payload.message;
+        state.user = action.payload.result.data.user;
+        state.token = action.payload.result.data.token;
+        state.message = action.payload.result.message;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -111,7 +111,7 @@ const authSlice = createSlice({
       .addCase(verifyEmail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = action.payload.message;
+        state.message = action.payload.result.message;
         if (state.user) {
           state.user.isVerified = true;
         }
