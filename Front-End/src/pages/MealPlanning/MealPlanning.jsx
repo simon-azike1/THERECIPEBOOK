@@ -1,9 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createMealPlan, reset } from '../../features/mealPlanning/mealPlanningSlice';
 import './mealPlanning.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { toast } from 'react-hot-toast';
 
 const MealPlanningForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
+  const { isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.mealPlanning
+  );
+
   const [formData, setFormData] = useState({
     recipeName: '',
     description: '',
@@ -32,6 +44,29 @@ const MealPlanningForm = () => {
     'Vegan', 'Vegetarian', 'Gluten-Free', 
     'Dairy-Free', 'Nut-Free', 'Halal', 'Kosher'
   ];
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+
+    if (!user?.isApproved) {
+      navigate('/dashboard');
+    }
+
+    if (isError) {
+      alert(message);
+    }
+
+    if (isSuccess) {
+      dispatch(reset());
+      navigate('/my-recipes');
+    }
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -90,8 +125,63 @@ const MealPlanningForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
+    
+    if (!user?.isApproved) {
+      toast.error('Your account needs to be approved before creating recipes');
+      return;
+    }
+
+    try {
+      // Validate ingredients
+      if (formData.ingredients.some(ing => !ing.name || !ing.quantity || !ing.unit)) {
+        toast.error('Please fill in all ingredient fields');
+        return;
+      }
+
+      // Validate required fields
+      const requiredFields = [
+        'recipeName', 'description', 'cuisineType', 'preparationTime',
+        'cookingTime', 'servingSize', 'difficultyLevel', 'instructions'
+      ];
+
+      const missingFields = requiredFields.filter(field => !formData[field]);
+      if (missingFields.length > 0) {
+        toast.error(`Please fill in: ${missingFields.join(', ')}`);
+        return;
+      }
+
+      // Validate image
+      if (!formData.recipeImage) {
+        toast.error('Please upload a recipe image');
+        return;
+      }
+
+      const result = await dispatch(createMealPlan(formData)).unwrap();
+      toast.success('Recipe created successfully!');
+      navigate('/my-recipes');
+    } catch (error) {
+      toast.error(error || 'Failed to create recipe');
+    }
   };
+
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  // Add approval warning if user is not approved
+  if (!user?.isApproved) {
+    return (
+      <div className="meal-planning-page">
+        <Header />
+        <div className="approval-warning">
+          <h2>Account Pending Approval</h2>
+          <p>Your account needs to be approved by an administrator before you can create recipes.</p>
+          <p>Please check back later or contact support for more information.</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="meal-planning-page">

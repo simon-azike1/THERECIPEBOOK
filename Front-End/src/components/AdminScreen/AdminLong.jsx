@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAdmin, reset } from '../../features/auth/adminSlice';
 import './AdminScreen.css';
 
-
 const AdminLong = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { admin, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.admin
+  );
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (isError) {
+      alert(message);
+    }
+
+    if (isSuccess || admin) {
+      navigate('/admin/dashboard');
+    }
+
+    dispatch(reset());
+  }, [admin, isError, isSuccess, message, navigate, dispatch]);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,9 +38,12 @@ const AdminLong = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle admin login logic here
-    console.log('Admin Form submitted:', formData);
+    dispatch(loginAdmin(formData));
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="auth-container">
@@ -29,7 +52,6 @@ const AdminLong = () => {
           <div className="auth-header">
             <h1>Admin Dashboard</h1>
             <p>Welcome to the admin panel. Please log in to manage users, view reports, and configure settings.</p>
-
           </div>
 
           <form className="auth-form fadeInUp" onSubmit={handleSubmit}>
@@ -60,8 +82,7 @@ const AdminLong = () => {
             </div>
 
             <button type="submit" className="auth-button">
-              Log In
-
+              {isLoading ? 'Loading...' : 'Log In'}
             </button>
           </form>
 
