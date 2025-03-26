@@ -2,9 +2,8 @@ import { MealPlanning } from '../../schema/Users/mealPlanningSchema.js'
 import { User } from '../../schema/Users/authSchema.js'
 import { messageHandler } from '../../utils/index.js'
 import { BAD_REQUEST, SUCCESS, NOT_FOUND, UNAUTHORIZED } from '../../constants/statusCode.js'
-import { cloudinary } from '../../utils/index.js'
 
-export const createMealPlanningService = async ({userId, data, file}, callback) => {
+export const createMealPlanningService = async ({userId, data, files}, callback) => {
   try {
     // Check if user is approved
     const user = await User.findById(userId);
@@ -16,29 +15,35 @@ export const createMealPlanningService = async ({userId, data, file}, callback) 
       return callback(messageHandler("Your account needs to be approved before creating recipes", false, UNAUTHORIZED, {}));
     }
 
-    if (!file) {
-      return callback(messageHandler("Recipe image is required", false, BAD_REQUEST, {}))
+    if (!files || !files.recipeImage || !files.recipeImage[0]) {
+      return callback(messageHandler("Recipe image is required", false, BAD_REQUEST, {}));
     }
 
-    // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: 'recipe_images'
-    })
+    try {
+      // Parse JSON strings if they exist
+      const parsedData = {
+        ...data,
+        ingredients: data.ingredients ? JSON.parse(data.ingredients) : [],
+        dietaryRestrictions: data.dietaryRestrictions ? JSON.parse(data.dietaryRestrictions) : [],
+        tags: data.tags ? JSON.parse(data.tags) : []
+      };
 
-    const mealPlan = new MealPlanning({
-      userId,
-      ...data,
-      recipeImage: result.secure_url
-    })
+      const mealPlan = new MealPlanning({
+        userId,
+        ...parsedData,
+        recipeImage: files.recipeImage[0].path // Cloudinary already handled the upload
+      });
 
-    return await mealPlan.save((err, mealPlan) => {
-      if (err) {
-        return callback(messageHandler("Failed to create meal plan", false, BAD_REQUEST, err))
-      }
-      return callback(messageHandler("Meal plan created successfully", true, SUCCESS, mealPlan))
-    })
+      const savedMealPlan = await mealPlan.save();
+      return callback(messageHandler("Meal plan created successfully", true, SUCCESS, savedMealPlan));
+    } catch (parseError) {
+      console.error('Error parsing data:', parseError);
+      return callback(messageHandler("Invalid data format", false, BAD_REQUEST, {}));
+    }
+
   } catch (error) {
-    return callback(messageHandler("Something went wrong...", false, BAD_REQUEST, error))
+    console.error('Error in createMealPlanningService:', error);
+    return callback(messageHandler(error.message || "Failed to create meal plan", false, BAD_REQUEST, {}));
   }
 }
 
@@ -63,31 +68,39 @@ export const getMealPlanningByIdService = async ({userId, mealPlanId}, callback)
   })
 }
 
-export const updateMealPlanningService = async ({userId, mealPlanId, data, file}, callback) => {
+export const updateMealPlanningService = async ({userId, mealPlanId, data, files}, callback) => {
   try {
-    const mealPlan = await MealPlanning.findOne({ _id: mealPlanId, userId })
+    const mealPlan = await MealPlanning.findOne({ _id: mealPlanId, userId });
 
     if (!mealPlan) {
-      return callback(messageHandler("Meal plan not found", false, NOT_FOUND, {}))
+      return callback(messageHandler("Meal plan not found", false, NOT_FOUND, {}));
     }
 
-    if (file) {
-      const result = await cloudinary.uploader.upload(file.path, {
-        folder: 'recipe_images'
-      })
-      data.recipeImage = result.secure_url
+    // Parse JSON strings if they exist
+    const parsedData = {
+      ...data,
+      ingredients: data.ingredients ? JSON.parse(data.ingredients) : undefined,
+      dietaryRestrictions: data.dietaryRestrictions ? JSON.parse(data.dietaryRestrictions) : undefined,
+      tags: data.tags ? JSON.parse(data.tags) : undefined
+    };
+
+    // Only update recipeImage if a new file is provided
+    if (files && files.recipeImage) {
+      parsedData.recipeImage = files.recipeImage[0].path;
     }
 
-    Object.assign(mealPlan, data)
+    // Remove undefined values
+    Object.keys(parsedData).forEach(key => 
+      parsedData[key] === undefined && delete parsedData[key]
+    );
 
-    return mealPlan.save((err, updatedMealPlan) => {
-      if (err) {
-        return callback(messageHandler("Failed to update meal plan", false, BAD_REQUEST, err))
-      }
-      return callback(messageHandler("Meal plan updated successfully", true, SUCCESS, updatedMealPlan))
-    })
+    Object.assign(mealPlan, parsedData);
+    const updatedMealPlan = await mealPlan.save();
+    return callback(messageHandler("Meal plan updated successfully", true, SUCCESS, updatedMealPlan));
+
   } catch (error) {
-    return callback(messageHandler("Something went wrong...", false, BAD_REQUEST, error))
+    console.error('Error in updateMealPlanningService:', error);
+    return callback(messageHandler("Failed to update meal plan", false, BAD_REQUEST, error));
   }
 }
 

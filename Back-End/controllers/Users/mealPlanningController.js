@@ -7,10 +7,69 @@ import {
 } from '../../services/Users/mealPlanningService.js'
 
 export const createMealPlanningController = async (req, res) => {
-  const userId = req.user.id
-  return await createMealPlanningService({ userId, data: req.body, file: req.file }, (result) => {
-    return res.status(result.statusCode).json({ result })
-  })
+  try {
+    // Check authorization
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        result: {
+          message: "Unauthorized",
+          success: false,
+          statusCode: 401,
+          data: {}
+        }
+      });
+    }
+
+    // Basic validation
+    const requiredFields = ['recipeName', 'description', 'cuisineType', 'preparationTime', 
+                          'cookingTime', 'servingSize', 'difficultyLevel', 'instructions'];
+    
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        result: {
+          message: `Missing required fields: ${missingFields.join(', ')}`,
+          success: false,
+          statusCode: 400,
+          data: {}
+        }
+      });
+    }
+
+    // Check for file
+    if (!req.files || !req.files.recipeImage) {
+      return res.status(400).json({
+        result: {
+          message: "Recipe image is required",
+          success: false,
+          statusCode: 400,
+          data: {}
+        }
+      });
+    }
+
+    const userId = req.user.id;
+    return await createMealPlanningService(
+      { 
+        userId, 
+        data: req.body, 
+        files: req.files 
+      }, 
+      (result) => {
+        return res.status(result.statusCode).json({ result });
+      }
+    );
+  } catch (error) {
+    console.error('Error in createMealPlanningController:', error);
+    return res.status(500).json({
+      result: {
+        message: "Internal server error",
+        success: false,
+        statusCode: 500,
+        data: { error: error.message }
+      }
+    });
+  }
 }
 
 export const getMealPlanningController = async (req, res) => {
@@ -31,7 +90,7 @@ export const getMealPlanningByIdController = async (req, res) => {
 export const updateMealPlanningController = async (req, res) => {
   const userId = req.user.id
   const { mealPlanId } = req.params
-  return await updateMealPlanningService({ userId, mealPlanId, data: req.body, file: req.file }, (result) => {
+  return await updateMealPlanningService({ userId, mealPlanId, data: req.body, files: req.files }, (result) => {
     return res.status(result.statusCode).json({ result })
   })
 }
