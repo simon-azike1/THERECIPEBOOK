@@ -109,13 +109,14 @@
   gap: 0.75rem;
   justify-content: flex-end;
   margin-top: 1.5rem;
+  opacity: var(--user-approved, 1);
+  pointer-events: var(--user-approved, all);
 }
 
 .submit-btn,
 .cancel-btn,
 .add-btn,
 .remove-btn {
- 
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 500;
@@ -213,4 +214,40 @@
 
 .meal-planning-form {
   animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Add these new styles */
+.approval-warning {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.approval-warning h2 {
+  color: var(--warning-color);
+  margin-bottom: 1rem;
+}
+
+.approval-warning p {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+/* Add loading state styles */
+.submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
