@@ -1,10 +1,21 @@
 import { MealPlanning } from '../../schema/Users/mealPlanningSchema.js'
+import { User } from '../../schema/Users/authSchema.js'
 import { messageHandler } from '../../utils/index.js'
-import { BAD_REQUEST, SUCCESS, NOT_FOUND } from '../../constants/statusCode.js'
+import { BAD_REQUEST, SUCCESS, NOT_FOUND, UNAUTHORIZED } from '../../constants/statusCode.js'
 import { cloudinary } from '../../utils/index.js'
 
 export const createMealPlanningService = async ({userId, data, file}, callback) => {
   try {
+    // Check if user is approved
+    const user = await User.findById(userId);
+    if (!user) {
+      return callback(messageHandler("User not found", false, NOT_FOUND, {}));
+    }
+    
+    if (!user.isApproved) {
+      return callback(messageHandler("Your account needs to be approved before creating recipes", false, UNAUTHORIZED, {}));
+    }
+
     if (!file) {
       return callback(messageHandler("Recipe image is required", false, BAD_REQUEST, {}))
     }

@@ -4,7 +4,8 @@ import {
   getAllUsersController, 
   getUserByIdController, 
   deleteUserController, 
-  updateUserController 
+  updateUserController,
+  approveUserController
 } from '../../controllers/Admin/userManagementController.js'
 import { verify } from '../../middlewares/auth-middleware.js'
 
@@ -19,5 +20,6 @@ adminRouter.get('/users', verify, getAllUsersController)
 adminRouter.get('/users/:userId', verify, getUserByIdController)
 adminRouter.delete('/users/:userId', verify, deleteUserController)
 adminRouter.put('/users/:userId', verify, updateUserController)
+adminRouter.patch('/users/:userId/approve', verify, approveUserController)
 
 export default adminRouter
