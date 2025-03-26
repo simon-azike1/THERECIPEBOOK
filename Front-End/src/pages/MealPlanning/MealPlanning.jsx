@@ -5,6 +5,7 @@ import { createMealPlan, reset } from '../../features/mealPlanning/mealPlanningS
 import './mealPlanning.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { toast } from 'react-hot-toast';
 
 const MealPlanningForm = () => {
   const navigate = useNavigate();
@@ -126,11 +127,41 @@ const MealPlanningForm = () => {
     e.preventDefault();
     
     if (!user?.isApproved) {
-      alert('Your account needs to be approved before creating recipes');
+      toast.error('Your account needs to be approved before creating recipes');
       return;
     }
 
-    dispatch(createMealPlan(formData));
+    try {
+      // Validate ingredients
+      if (formData.ingredients.some(ing => !ing.name || !ing.quantity || !ing.unit)) {
+        toast.error('Please fill in all ingredient fields');
+        return;
+      }
+
+      // Validate required fields
+      const requiredFields = [
+        'recipeName', 'description', 'cuisineType', 'preparationTime',
+        'cookingTime', 'servingSize', 'difficultyLevel', 'instructions'
+      ];
+
+      const missingFields = requiredFields.filter(field => !formData[field]);
+      if (missingFields.length > 0) {
+        toast.error(`Please fill in: ${missingFields.join(', ')}`);
+        return;
+      }
+
+      // Validate image
+      if (!formData.recipeImage) {
+        toast.error('Please upload a recipe image');
+        return;
+      }
+
+      const result = await dispatch(createMealPlan(formData)).unwrap();
+      toast.success('Recipe created successfully!');
+      navigate('/my-recipes');
+    } catch (error) {
+      toast.error(error || 'Failed to create recipe');
+    }
   };
 
   if (isLoading) {
