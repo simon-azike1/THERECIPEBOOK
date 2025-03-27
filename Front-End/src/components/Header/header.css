@@ -154,7 +154,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  /* backdrop-filter: blur(4px); */
   z-index: 90;
   display: none;
 }
@@ -221,7 +221,10 @@
   .nav-items {
     gap: 2rem;
   }
+
+  
 }
+
 
 @media (max-width: 768px) {
   .nav-links {

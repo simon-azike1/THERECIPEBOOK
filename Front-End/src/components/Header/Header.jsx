@@ -31,7 +31,7 @@ const Header = () => {
   const navLinks = [
     { to: '/', text: 'Home' },
     { to: '/recipe', text: 'Recipes' },
-    { to: '/meal-planning', text: 'Meal Planner' },
+    { to: '/meal-planning', text: 'M.Planner' },
     { to: '/about', text: 'About' },
     { to: '/contact', text: 'Contact' },
   ];
