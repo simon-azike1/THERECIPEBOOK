@@ -7,16 +7,16 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import RecipePage from "./pages/RecipePage/RecipePage";
 import About from "./pages/About/About";
-import MealPlanning from "./pages/MealPlanning/MealPlanning";
 import RecipeVideo from "./components/VideoPage/RecipeVideo";
 import Contact from "./pages/Contacts/Contact";
 import AdminLogin from "./components/AdminScreen/AdminLong";
 import AdminDashboard from "./components/AdminDashBoard/dashboard";
 import PrivateRoute from './components/PrivateRoute';
 import EmailVerification from './pages/EmailVerification/EmailVerification';
+import MyRecipes from './pages/MyRecipes/MyRecipes';
 
 const App = () => {
-  return (
+  return (  
     <div className="app">
       <Toaster
         position="top-right"
@@ -51,8 +51,9 @@ const App = () => {
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/recipe" element={<RecipePage />} />
-          <Route path="/meal-planning" element={<MealPlanning />} />
-          <Route path="/RecipeVideo" element={<RecipeVideo />} />
+          <Route path="/recipe-video" element={<RecipeVideo />} />
+          <Route path="/my-recipes" element={<MyRecipes />} />
+          <Route path="/recipes" element={<RecipePage />} />
         </Route>
 
         {/* Admin Routes */}
