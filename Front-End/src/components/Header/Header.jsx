@@ -40,7 +40,7 @@ const Header = () => {
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
         <Link to="/about" className="logo">
-          <img  src='src/assets/logo1.png' className="logo-text"/>
+          <img  src='https://s.tmimgcdn.com/scr/1200x750/332800/cooking-tips-and-secret-recipes-food-related-book-cover-design_332805-original.jpg' className="logo-text"/>
         </Link>
 
         <button 
