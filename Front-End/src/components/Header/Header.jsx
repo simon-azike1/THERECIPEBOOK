@@ -39,8 +39,8 @@ const Header = () => {
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
-        <Link to="/" className="logo">
-          <span className="logo-text">TheRecipeBook</span>
+        <Link to="/about" className="logo">
+          <img  src='src/assets/logo1.png' className="logo-text"/>
         </Link>
 
         <button 
