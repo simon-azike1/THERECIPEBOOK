@@ -249,16 +249,89 @@
 .recipe-card {
   animation: fadeInUp 0.5s ease forwards;
   opacity: 0;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.recipe-card:nth-child(1) { animation-delay: 0.1s; }
-.recipe-card:nth-child(2) { animation-delay: 0.2s; }
-.recipe-card:nth-child(3) { animation-delay: 0.3s; }
-.recipe-card:nth-child(4) { animation-delay: 0.4s; }
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.recipe-info {
+  padding: 1.5rem;
+}
+
+.recipe-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.recipe-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.recipe-difficulty {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.difficulty-easy { background: #e6f4ea; color: #1e8e3e; }
+.difficulty-medium { background: #fef7e0; color: #b17900; }
+.difficulty-hard { background: #fce8e6; color: #d93025; }
+
+.recipe-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 /* Loading State */
 .loading-spinner {
   display: flex;
   justify-content: center;
-  padding: 2rem;
+  align-items: center;
+  min-height: 400px;
+  font-size: 1.2rem;
+  color: var(--primary-blue);
+}
+
+.error-message {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: white;
+  border-radius: 20px;
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.error-message h3 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.error-message p {
+  color: #666;
 } 

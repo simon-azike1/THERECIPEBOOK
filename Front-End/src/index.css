@@ -13,3 +13,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  :root {
+    --primary-blue-rgb: 43, 76, 126;
+    --primary-blue: #2b4c7e;
+    --light-blue: #3a5d8f;
+    --text-dark: #1a1a1a;
+  }
