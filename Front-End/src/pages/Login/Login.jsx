@@ -23,7 +23,7 @@ const Login = () => {
 
     if (isSuccess || user) {
       toast.success('Login successful!');
-      navigate('/meal-planning');
+      navigate('/my-recipes');
     }
 
     return () => {

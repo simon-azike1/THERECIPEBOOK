@@ -1,234 +1,116 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserMealPlans } from '../../features/mealPlanning/mealPlanningSlice';
 import './recipePage.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
+import { toast } from 'react-hot-toast';
 
 const RecipePage = () => {
+  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('rating'); // 'rating', 'time', 'reviews'
-  const [sortOrder, setSortOrder] = useState('desc'); // 'asc', 'desc'
+  const [sortBy, setSortBy] = useState('rating');
+  const [sortOrder, setSortOrder] = useState('desc');
 
-  const recipes = [
-    {
-      id: 1,
-      title: "Mediterranean Salad",
-      image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe",
-      category: "Healthy",
-      time: "20 min",
-      rating: 4.8,
-      reviews: 234,
-      author: {
-        name: "Sarah Johnson",
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
-      }
-    },
-    {
-      id: 2,
-      title: "Classic Beef Burger",
-      image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
-      category: "American",
-      time: "30 min",
-      rating: 4.9,
-      reviews: 186,
-      author: {
-        name: "Mike Chen",
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-      }
-    },
-    {
-      id: 3,
-      title: "Vegetarian Pasta",
-      image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
-      category: "Italian",
-      time: "25 min",
-      rating: 4.7,
-      reviews: 158,
-      author: {
-        name: "Lisa Torres",
-        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
-      }
-    },
-    {
-      id: 4,
-      title: "Chicken Tikka Masala",
-      image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db",
-      category: "Indian",
-      time: "45 min",
-      rating: 4.9,
-      reviews: 312,
-      author: {
-        name: "Raj Patel",
-        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
-      }
-    },
-    {
-      id: 5,
-      title: "Chocolate Lava Cake",
-      image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51",
-      category: "Desserts",
-      time: "35 min",
-      rating: 4.8,
-      reviews: 175,
-      author: {
-        name: "Emma Wilson",
-        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2"
-      }
-    },
-    {
-      id: 6,
-      title: "Sushi Roll Platter",
-      image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c",
-      category: "Japanese",
-      time: "50 min",
-      rating: 4.9,
-      reviews: 267,
-      author: {
-        name: "Yuki Tanaka",
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
-      }
-    },
-    {
-      id: 7,
-      title: "Greek Salad Bowl",
-      image: "https://images.unsplash.com/photo-1540420773420-3366772f4999",
-      category: "Healthy",
-      time: "15 min",
-      rating: 4.6,
-      reviews: 142,
-      author: {
-        name: "Maria Costa",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb"
-      }
-    },
-    {
-      id: 8,
-      title: "BBQ Pulled Pork",
-      image: "https://images.unsplash.com/photo-1623653387945-2fd25214f8fc",
-      category: "American",
-      time: "4 hrs",
-      rating: 4.9,
-      reviews: 198,
-      author: {
-        name: "John Smith",
-        avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61"
-      }
-    },
-    {
-      id: 9,
-      title: "Avocado Toast",
-      image: "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2",
-      category: "Breakfast",
-      time: "10 min",
-      rating: 4.5,
-      reviews: 156,
-      author: {
-        name: "Sophie Chen",
-        avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956"
-      }
-    },
-    {
-      id: 10,
-      title: "Margherita Pizza",
-      image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca",
-      category: "Italian",
-      time: "40 min",
-      rating: 4.8,
-      reviews: 289,
-      author: {
-        name: "Marco Rossi",
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
-      }
-    },
-    {
-      id: 11,
-      title: "Thai Green Curry",
-      image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd",
-      category: "Thai",
-      time: "35 min",
-      rating: 4.7,
-      reviews: 167,
-      author: {
-        name: "Suki Lee",
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
-      }
-    },
-    {
-      id: 12,
-      title: "Blueberry Pancakes",
-      image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93",
-      category: "Breakfast",
-      time: "25 min",
-      rating: 4.6,
-      reviews: 145,
-      author: {
-        name: "Emily Brown",
-        avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e"
-      }
-    }
-  ];
+  const { mealPlans, isLoading, isError, message } = useSelector(
+    (state) => state.mealPlanning
+  );
+
+  useEffect(() => {
+    dispatch(getUserMealPlans())
+      .unwrap()
+      .catch((error) => {
+        toast.error(error || 'Failed to fetch recipes');
+      });
+  }, [dispatch]);
 
   const categories = [
     { id: 'all', name: 'All Recipes' },
-    { id: 'breakfast', name: 'Breakfast' },
-    { id: 'american', name: 'American' },
-    { id: 'italian', name: 'Italian' },
-    { id: 'indian', name: 'Indian' },
-    { id: 'japanese', name: 'Japanese' },
-    { id: 'thai', name: 'Thai' },
-    { id: 'healthy', name: 'Healthy' },
-    { id: 'desserts', name: 'Desserts' }
+    { id: 'Italian', name: 'Italian' },
+    { id: 'Indian', name: 'Indian' },
+    { id: 'Mexican', name: 'Mexican' },
+    { id: 'Chinese', name: 'Chinese' },
+    { id: 'Japanese', name: 'Japanese' },
+    { id: 'Thai', name: 'Thai' },
+    { id: 'American', name: 'American' },
+    { id: 'French', name: 'French' },
+    { id: 'Mediterranean', name: 'Mediterranean' },
+    { id: 'Other', name: 'Other' }
   ];
 
   // Filter and sort recipes
-  const filteredRecipes = useMemo(() => {
-    return recipes
-      .filter(recipe => {
-        // Category filter
-        if (activeTab !== 'all' && recipe.category.toLowerCase() !== activeTab) {
-          return false;
-        }
+  const filteredRecipes = mealPlans
+    .filter(recipe => {
+      // Category filter
+      if (activeTab !== 'all' && recipe.cuisineType !== activeTab) {
+        return false;
+      }
 
-        // Search filter
-        if (searchQuery) {
-          const query = searchQuery.toLowerCase();
-          return (
-            recipe.title.toLowerCase().includes(query) ||
-            recipe.category.toLowerCase().includes(query) ||
-            recipe.author.name.toLowerCase().includes(query)
-          );
-        }
+      // Search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        return (
+          recipe.recipeName.toLowerCase().includes(query) ||
+          recipe.cuisineType.toLowerCase().includes(query) ||
+          recipe.description.toLowerCase().includes(query)
+        );
+      }
 
-        return true;
-      })
-      .sort((a, b) => {
-        // Sort logic
-        if (sortBy === 'rating') {
-          return sortOrder === 'desc' ? b.rating - a.rating : a.rating - b.rating;
-        }
-        if (sortBy === 'reviews') {
-          return sortOrder === 'desc' ? b.reviews - a.reviews : a.reviews - b.reviews;
-        }
-        if (sortBy === 'time') {
-          const timeA = parseInt(a.time);
-          const timeB = parseInt(b.time);
-          return sortOrder === 'desc' ? timeB - timeA : timeA - timeB;
-        }
-        return 0;
-      });
-  }, [recipes, activeTab, searchQuery, sortBy, sortOrder]);
+      return true;
+    })
+    .sort((a, b) => {
+      // Sort logic
+      if (sortBy === 'rating') {
+        return sortOrder === 'desc' ? b.rating - a.rating : a.rating - b.rating;
+      }
+      if (sortBy === 'time') {
+        return sortOrder === 'desc' 
+          ? (b.preparationTime + b.cookingTime) - (a.preparationTime + a.cookingTime) 
+          : (a.preparationTime + a.cookingTime) - (b.preparationTime + b.cookingTime);
+      }
+      if (sortBy === 'difficulty') {
+        const difficultyOrder = { 'Easy': 1, 'Medium': 2, 'Hard': 3 };
+        return sortOrder === 'desc'
+          ? difficultyOrder[b.difficultyLevel] - difficultyOrder[a.difficultyLevel]
+          : difficultyOrder[a.difficultyLevel] - difficultyOrder[b.difficultyLevel];
+      }
+      return 0;
+    });
 
   // Handle sort change
   const handleSortChange = (newSortBy) => {
     if (sortBy === newSortBy) {
-      // Toggle sort order if clicking the same sort option
       setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
     } else {
       setSortBy(newSortBy);
       setSortOrder('desc');
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="recipe-page">
+        <Header />
+        <div className="loading-spinner">Loading recipes...</div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="recipe-page">
+        <Header />
+        <div className="error-message">
+          <h3>Error loading recipes</h3>
+          <p>{message}</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="recipe-page">
@@ -269,11 +151,11 @@ const RecipePage = () => {
                 <button onClick={() => handleSortChange('rating')}>
                   Rating {sortBy === 'rating' && (sortOrder === 'desc' ? '↓' : '↑')}
                 </button>
-                <button onClick={() => handleSortChange('reviews')}>
-                  Reviews {sortBy === 'reviews' && (sortOrder === 'desc' ? '↓' : '↑')}
-                </button>
                 <button onClick={() => handleSortChange('time')}>
                   Time {sortBy === 'time' && (sortOrder === 'desc' ? '↓' : '↑')}
+                </button>
+                <button onClick={() => handleSortChange('difficulty')}>
+                  Difficulty {sortBy === 'difficulty' && (sortOrder === 'desc' ? '↓' : '↑')}
                 </button>
               </div>
             </div>
@@ -296,7 +178,20 @@ const RecipePage = () => {
       <div className="recipe-page-content">
         <div className="recipes-grid">
           {filteredRecipes.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <RecipeCard 
+              key={recipe._id} 
+              recipe={{
+                id: recipe._id,
+                title: recipe.recipeName,
+                image: recipe.recipeImage,
+                category: recipe.cuisineType,
+                time: `${recipe.preparationTime + recipe.cookingTime} min`,
+                rating: recipe.rating,
+                difficulty: recipe.difficultyLevel,
+                servings: recipe.servingSize,
+                description: recipe.description
+              }} 
+            />
           ))}
         </div>
 
