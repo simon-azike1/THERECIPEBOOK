@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseURL = 'http://localhost:5000/api/v1';
+const baseURL = 'https://therecipebook-4uw5.onrender.com/api/v1';
 
 // Create Meal Plan
 export const createMealPlan = createAsyncThunk(
