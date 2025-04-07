@@ -3,12 +3,12 @@ import {
   getMealPlanningService, 
   getMealPlanningByIdService, 
   updateMealPlanningService, 
-  deleteMealPlanningService 
+  deleteMealPlanningService,
+  getAllRecipesService,
+  getUserRecipesService
 } from '../../services/Users/mealPlanningService.js'
 
 export const createMealPlanningController = async (req, res) => {
-  try {
-    // Check authorization
     if (!req.user || !req.user.id) {
       return res.status(401).json({
         result: {
@@ -59,17 +59,6 @@ export const createMealPlanningController = async (req, res) => {
         return res.status(result.statusCode).json({ result });
       }
     );
-  } catch (error) {
-    console.error('Error in createMealPlanningController:', error);
-    return res.status(500).json({
-      result: {
-        message: "Internal server error",
-        success: false,
-        statusCode: 500,
-        data: { error: error.message }
-      }
-    });
-  }
 }
 
 export const getMealPlanningController = async (req, res) => {
@@ -101,4 +90,20 @@ export const deleteMealPlanningController = async (req, res) => {
   return await deleteMealPlanningService({ userId, mealPlanId }, (result) => {
     return res.status(result.statusCode).json({ result })
   })
+}
+
+// Get all recipes (unprotected, but requires authentication)
+export const getAllRecipesController = async (req, res) => {
+    return await getAllRecipesService((result) => {
+      return res.status(result.statusCode).json({ result });
+    });
+
+};
+
+// Get user's own recipes
+export const getUserRecipesController = async (req, res) => {
+    const userId = req.user.id;
+    return await getUserRecipesService({ userId }, (result) => {
+      return res.status(result.statusCode).json({ result });
+    });
 }

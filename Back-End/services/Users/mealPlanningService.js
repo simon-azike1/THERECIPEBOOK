@@ -115,3 +115,36 @@ export const deleteMealPlanningService = async ({userId, mealPlanId}, callback) 
     return callback(messageHandler("Meal plan deleted successfully", true, SUCCESS, {}))
   })
 }
+
+export const getAllRecipesService = async (callback) => {
+  try {
+    const recipes = await MealPlanning.find()
+      .populate('userId', 'name email')
+      .sort({ createdAt: -1 });
+
+    if (!recipes) {
+      return callback(messageHandler("No recipes found", false, NOT_FOUND, []));
+    }
+
+    return callback(messageHandler("Recipes fetched successfully", true, SUCCESS, recipes));
+  } catch (error) {
+    console.error('Error in getAllRecipesService:', error);
+    return callback(messageHandler("Failed to fetch recipes", false, BAD_REQUEST, {}));
+  }
+};
+
+export const getUserRecipesService = async ({ userId }, callback) => {
+  try {
+    const userRecipes = await MealPlanning.find({ userId })
+      .sort({ createdAt: -1 });
+
+    if (!userRecipes) {
+      return callback(messageHandler("No recipes found for this user", false, NOT_FOUND, []));
+    }
+
+    return callback(messageHandler("User recipes fetched successfully", true, SUCCESS, userRecipes));
+  } catch (error) {
+    console.error('Error in getUserRecipesService:', error);
+    return callback(messageHandler("Failed to fetch user recipes", false, BAD_REQUEST, {}));
+  }
+};
