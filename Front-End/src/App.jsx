@@ -15,6 +15,7 @@ import PrivateRoute from './components/PrivateRoute';
 import EmailVerification from './pages/EmailVerification/EmailVerification';
 import MyRecipes from './pages/MyRecipes/MyRecipes';
 
+
 const App = () => {
   return (  
     <div className="app">
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>

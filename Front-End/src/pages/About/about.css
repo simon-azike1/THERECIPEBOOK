@@ -287,6 +287,7 @@
 
   .hero-content h1 {
     font-size: 2.5rem;
+    padding-top: 7rem;
   }
 
   .hero-content p {
@@ -295,6 +296,8 @@
 
   .container {
     padding: 3rem 1.5rem;
+   
+  
   }
 
   .mission-content h2,
@@ -313,4 +316,18 @@
   .member-image {
     height: 250px;
   }
+
+  .about-hero {
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    background-attachment: fixed;
+  }
+  
 } 

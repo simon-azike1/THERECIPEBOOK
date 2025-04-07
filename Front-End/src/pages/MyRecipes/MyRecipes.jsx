@@ -67,7 +67,7 @@ const MyRecipes = () => {
       <div className="my-recipes-container">
         <div className="my-recipes-header">
           <div className="header-content">
-            <h1>My Recipes</h1>
+            <h1>Recipes</h1>
             <p>Manage and organize your personal recipe collection</p>
           </div>
 

@@ -10,7 +10,7 @@ function ContactPage() {
       <div className="contact-header">
   
         <h1>Contact Us</h1>
-        <p className="contact-para">Got questions or need help? We're here for you! <br /> Got questions or need help? We're here for you! Reach out via email, live chat, or check our FAQ. <br /> Your satisfaction is our priority, and we’ll assist you as quickly as possible!</p>
+        <p className="contact-para">Got questions or need help? We're here for you! <br />  Reach out via email, live chat, or check our FAQ. <br /> Your satisfaction is our priority, and we’ll assist you as quickly as possible!</p>
       </div>
 
       <div className="contact-page-container">

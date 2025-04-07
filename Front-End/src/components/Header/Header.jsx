@@ -18,14 +18,14 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    setIsMenuOpen(false);
+    setIsMenuOpen(false);  // Close menu on route change
   }, [location]);
 
   const toggleMenu = () => setIsMenuOpen(prevState => !prevState);
 
   const handleLogout = () => {
     dispatch(logout());
-    setIsMenuOpen(false);
+    setIsMenuOpen(false);  // Close menu on logout
   };
 
   const navLinks = [
@@ -40,7 +40,7 @@ const Header = () => {
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
         <Link to="/about" className="logo">
-          <img  src='https://s.tmimgcdn.com/scr/1200x750/332800/cooking-tips-and-secret-recipes-food-related-book-cover-design_332805-original.jpg' className="logo-text"/>
+          <img src="https://s.tmimgcdn.com/scr/1200x750/332800/cooking-tips-and-secret-recipes-food-related-book-cover-design_332805-original.jpg" className="logo-img" alt="Logo" />
         </Link>
 
         <button 
@@ -81,7 +81,7 @@ const Header = () => {
           </div>
         </nav>
 
-        {isMenuOpen && <div className="overlay" onClick={toggleMenu}></div>}
+        {isMenuOpen && <div className="overlay active" onClick={toggleMenu}></div>}
       </div>
     </header>
   );
