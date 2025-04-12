@@ -5,7 +5,9 @@ import {
   getMealPlanningController,
   getMealPlanningByIdController,
   updateMealPlanningController,
-  deleteMealPlanningController
+  deleteMealPlanningController,
+  getAllRecipesController,
+  getUserRecipesController
 } from '../../controllers/Users/mealPlanningController.js'
 import { uploadManager } from '../../modules/storage/cloudinary.js'
 import { verify } from '../../middlewares/auth-middleware.js'
@@ -23,5 +25,8 @@ userRouter.get('/meal-planning', verify, getMealPlanningController)
 userRouter.get('/meal-planning/:mealPlanId', verify, getMealPlanningByIdController)
 userRouter.put('/meal-planning/:mealPlanId', verify, uploadManager.fields([{ name: "recipeImage", maxCount: 1 }]), updateMealPlanningController)
 userRouter.delete('/meal-planning/:mealPlanId', verify, deleteMealPlanningController)
+
+userRouter.get('/recipes', getAllRecipesController)
+userRouter.get('/recipes/user', verify, getUserRecipesController)
 
 export default userRouter
