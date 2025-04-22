@@ -1,240 +1,121 @@
 .recipe-page {
-  background-color: #f8f9fa;
-  min-height: 100vh;
-}
+  @apply min-h-screen bg-gray-50;
 
-.recipe-page-header {
-  max-width: 1200px;
-  margin: 0 auto 3rem;
-  padding: 2rem;
-}
+  .recipe-page-header {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 pt-8;
 
-.header-content {
-  text-align: center;
-  margin-bottom: 2.5rem;
-}
+    .header-content {
+      @apply text-center mb-10;
 
-.header-content h1 {
-  font-size: 2.5rem;
-  color: var(--text-dark);
-  margin-bottom: 0.75rem;
-  font-weight: 700;
-}
+      h1 {
+        @apply text-4xl font-bold text-gray-900 mb-3;
+      }
 
-.header-content p {
-  color: #666;
-  font-size: 1.1rem;
-}
+      p {
+        @apply text-lg text-gray-600;
+      }
+    }
 
-/* Search and Filters */
-.search-filters {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
+    .search-filters {
+      @apply flex gap-4 mb-8 flex-wrap;
 
-.search-bar {
-  flex: 1;
-  position: relative;
-  min-width: 280px;
-}
+      .search-bar {
+        @apply flex-1 relative min-w-[280px];
 
-.search-bar svg {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
-}
+        svg {
+          @apply absolute left-4 top-1/2 -translate-y-1/2 text-gray-400;
+        }
 
-.search-bar input {
-  width: 100%;
-  padding: 1rem 1rem 1rem 3rem;
-  border: 2px solid #eee;
-  border-radius: 50px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
+        input {
+          @apply w-full pl-12 pr-4 py-3 rounded-full border-2 border-gray-200 
+          focus:border-primary-blue focus:ring focus:ring-primary-blue/10 focus:outline-none;
+        }
+      }
 
-.search-bar input:focus {
-  border-color: var(--primary-blue);
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(0, 118, 255, 0.1);
-}
+      .filter-buttons {
+        .dropdown {
+          @apply relative;
 
-/* Dropdown Styles */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+          .sort-btn {
+            @apply flex items-center gap-2 px-6 py-3 rounded-full bg-white border-2 
+            border-gray-200 text-gray-700 font-medium min-w-[140px] hover:border-primary-blue 
+            hover:text-primary-blue transition-all duration-300;
+          }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background-color: white;
-  min-width: 160px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  padding: 0.5rem;
-  z-index: 1000;
-  margin-top: 0.5rem;
-}
+          .dropdown-content {
+            @apply hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg 
+            p-2 min-w-[160px] z-10;
 
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+            button {
+              @apply block w-full px-4 py-2 text-left text-gray-700 text-sm rounded-lg
+              hover:bg-gray-50 hover:text-primary-blue transition-colors duration-200;
+            }
+          }
 
-.dropdown-content button {
-  display: block;
-  width: 100%;
-  padding: 0.75rem 1rem;
-  text-align: left;
-  border: none;
-  background: none;
-  color: var(--text-dark);
-  font-size: 0.9rem;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
+          &:hover .dropdown-content {
+            @apply block;
+          }
+        }
+      }
+    }
 
-.dropdown-content button:hover {
-  background-color: #f8f9fa;
-  color: var(--primary-blue);
-}
+    .category-tabs {
+      @apply flex gap-4 overflow-x-auto pb-2 -mx-4 px-4;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
 
-/* Category Tabs */
-.category-tabs {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  padding: 0.5rem 0;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
-.category-tabs::-webkit-scrollbar {
-  display: none;
-}
+      .category-tab {
+        @apply px-6 py-3 rounded-full bg-white text-gray-600 font-medium whitespace-nowrap
+        transition-all duration-300 hover:bg-gray-50;
 
-.category-tab {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 50px;
-  background: white;
-  color: #666;
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.category-tab:hover {
-  background: #f0f0f0;
-}
-
-.category-tab.active {
-  background: var(--primary-blue);
-  color: white;
-}
-
-/* Recipe Grid */
-.recipe-page-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.recipes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-/* No Results Message */
-.no-results {
-  text-align: center;
-  padding: 3rem 1rem;
-  background: white;
-  border-radius: 20px;
-  margin-top: 2rem;
-}
-
-.no-results h3 {
-  font-size: 1.5rem;
-  color: var(--text-dark);
-  margin-bottom: 0.5rem;
-}
-
-.no-results p {
-  color: #666;
-}
-
-/* Sort Button */
-.sort-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
-  border: 2px solid #eee;
-  border-radius: 50px;
-  background: white;
-  color: var(--text-dark);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 140px;
-}
-
-.sort-btn:hover {
-  border-color: var(--primary-blue);
-  color: var(--primary-blue);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .recipe-page {
-    padding: 1rem;
+        &.active {
+          @apply bg-primary-blue text-white;
+        }
+      }
+    }
   }
 
-  .header-content h1 {
-    font-size: 2rem;
+  .recipe-page-content {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16;
+
+    .recipes-grid {
+      @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+    }
+
+    .no-results {
+      @apply text-center py-16 bg-white rounded-2xl;
+
+      h3 {
+        @apply text-2xl font-bold text-gray-900 mb-2;
+      }
+
+      p {
+        @apply text-gray-600;
+      }
+    }
   }
 
-  .search-filters {
-    flex-direction: column;
+  .loading-spinner {
+    @apply flex justify-center items-center min-h-[400px] text-xl text-primary-blue;
   }
 
-  .filter-buttons {
-    width: 100%;
-  }
+  .error-message {
+    @apply text-center py-16 bg-white rounded-2xl max-w-2xl mx-auto my-8;
 
-  .sort-btn {
-    width: 100%;
-    justify-content: center;
-  }
+    h3 {
+      @apply text-2xl font-bold text-red-600 mb-2;
+    }
 
-  .dropdown-content {
-    width: 100%;
-    right: auto;
-  }
-
-  .recipes-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .category-tabs {
-    padding: 0.5rem;
-    margin: 0 -1rem;
-    padding-left: 1rem;
+    p {
+      @apply text-gray-600;
+    }
   }
 }
 
-/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -248,34 +129,23 @@
 
 .recipe-card {
   animation: fadeInUp 0.5s ease forwards;
-  opacity: 0;
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.recipe-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .recipe-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+  width: 100% !important;
+  height: 200px !important;
+  object-fit: cover !important;
 }
 
 .recipe-info {
-  padding: 1.5rem;
+  padding: 1.5rem !important;
 }
 
 .recipe-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: var(--text-dark) !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .recipe-meta {
@@ -307,31 +177,42 @@
   overflow: hidden;
 }
 
-/* Loading State */
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-  font-size: 1.2rem;
-  color: var(--primary-blue);
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .recipe-page {
+    padding: 1rem !important;
+  }
 
-.error-message {
-  text-align: center;
-  padding: 3rem 1rem;
-  background: white;
-  border-radius: 20px;
-  margin: 2rem auto;
-  max-width: 600px;
-}
+  .header-content h1 {
+    font-size: 2rem !important;
+  }
 
-.error-message h3 {
-  color: #dc3545;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
+  .search-filters {
+    flex-direction: column !important;
+  }
 
-.error-message p {
-  color: #666;
+  .filter-buttons {
+    width: 100%;
+  }
+
+  .sort-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dropdown-content {
+    width: 100%;
+    right: auto;
+  }
+
+  .recipes-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .category-tabs {
+    padding: 0.5rem;
+    margin: 0 -1rem;
+    padding-left: 1rem;
+  }
 } 
