@@ -48,21 +48,36 @@ const Features = () => {
   ];
 
   return (
-    <section className="features-section">
-      <div className="features-container">
-        <div className="features-header">
-          <h2>Everything you need to manage your recipes</h2>
-          <p>Powerful features to help you create, organize, and share your culinary creations</p>
-        </div>
-        <div className="features-grid">
-          {features.map((feature, index) => (
-            <div key={index} className={`feature-card feature-${feature.color}`}>
-              <div className="feature-icon">{feature.icon}</div>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-              <div className="feature-hover"></div>
+    <section className="py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center p-6">
+            <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </div>
-          ))}
+            <h3 className="text-xl font-semibold mb-2">Discover Recipes</h3>
+            <p className="text-gray-600">Find recipes that match your taste and dietary preferences.</p>
+          </div>
+          <div className="text-center p-6">
+            <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Share Your Recipes</h3>
+            <p className="text-gray-600">Share your favorite recipes with our growing community.</p>
+          </div>
+          <div className="text-center p-6">
+            <div className="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Get Inspired</h3>
+            <p className="text-gray-600">Discover new cuisines and cooking techniques.</p>
+          </div>
         </div>
       </div>
     </section>

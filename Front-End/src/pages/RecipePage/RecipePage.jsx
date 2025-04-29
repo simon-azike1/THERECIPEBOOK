@@ -13,6 +13,13 @@ const RecipePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('rating');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState({
+    difficulty: [],
+    cuisineType: [],
+    dietaryRestrictions: []
+  });
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
   const { recipes, isLoading, isError, message } = useSelector(
     (state) => state.recipes
@@ -40,6 +47,29 @@ const RecipePage = () => {
     { id: 'Other', name: 'Other' }
   ];
 
+  const difficultyLevels = ['Easy', 'Medium', 'Hard'];
+  const dietaryOptions = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Halal', 'Kosher'];
+
+  const handleFilterChange = (category, value) => {
+    setSelectedFilters(prev => ({
+      ...prev,
+      [category]: prev[category].includes(value)
+        ? prev[category].filter(item => item !== value)
+        : [...prev[category], value]
+    }));
+  };
+
+  const clearFilters = () => {
+    setSelectedFilters({
+      difficulty: [],
+      cuisineType: [],
+      dietaryRestrictions: []
+    });
+    setActiveTab('all');
+    setSortBy('rating');
+    setSortOrder('desc');
+  };
+
   // Filter and sort recipes
   const filteredRecipes = recipes
     .filter(recipe => {
@@ -58,10 +88,21 @@ const RecipePage = () => {
         );
       }
 
+      // Advanced filters
+      if (selectedFilters.difficulty.length > 0 && 
+          !selectedFilters.difficulty.includes(recipe.difficultyLevel)) {
+        return false;
+      }
+
+      if (selectedFilters.dietaryRestrictions.length > 0 && 
+          !selectedFilters.dietaryRestrictions.some(restriction => 
+            recipe.dietaryRestrictions?.includes(restriction))) {
+        return false;
+      }
+
       return true;
     })
     .sort((a, b) => {
-      // Sort logic
       if (sortBy === 'rating') {
         return sortOrder === 'desc' ? b.rating - a.rating : a.rating - b.rating;
       }
@@ -87,7 +128,20 @@ const RecipePage = () => {
       setSortBy(newSortBy);
       setSortOrder('desc');
     }
+    setIsSortDropdownOpen(false); // Close dropdown after selection
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.sort-dropdown')) {
+        setIsSortDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   if (isLoading) {
     return (
@@ -115,7 +169,7 @@ const RecipePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-16">
       <Header />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 pt-8">
         <div className="text-center mb-10">
@@ -149,46 +203,59 @@ const RecipePage = () => {
             />
           </div>
 
-          <div className="relative group">
-            <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border-2 border-gray-200 text-gray-700 font-medium min-w-[140px] hover:border-blue-600 hover:text-blue-600 transition-all duration-300">
+          <div className="relative sort-dropdown">
+            <button 
+              onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+              className="px-6 py-3 rounded-full bg-white border-2 border-gray-200 
+                text-gray-700 font-medium hover:border-blue-600 hover:text-blue-600 
+                transition-all duration-300 flex items-center gap-2"
+            >
               <svg 
-                xmlns="http://www.w3.org/2000/svg" 
                 className="w-5 h-5" 
-                viewBox="0 0 24 24" 
                 fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
               >
-                <path d="M11 5h10"></path>
-                <path d="M11 9h7"></path>
-                <path d="M11 13h4"></path>
-                <path d="M3 17l3 3 3-3"></path>
-                <path d="M6 18V4"></path>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
               </svg>
               Sort by: {sortBy}
+              <svg 
+                className={`w-4 h-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </button>
-            <div className="hidden group-hover:block absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg p-2 min-w-[160px] z-10">
-              <button 
-                onClick={() => handleSortChange('rating')}
-                className="block w-full px-4 py-2 text-left text-gray-700 text-sm rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200"
+            
+            {isSortDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg p-2 min-w-[160px] z-10
+                animate-in fade-in slide-in-from-top-2 duration-200"
               >
-                Rating {sortBy === 'rating' && (sortOrder === 'desc' ? '↓' : '↑')}
-              </button>
-              <button 
-                onClick={() => handleSortChange('time')}
-                className="block w-full px-4 py-2 text-left text-gray-700 text-sm rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200"
-              >
-                Time {sortBy === 'time' && (sortOrder === 'desc' ? '↓' : '↑')}
-              </button>
-              <button 
-                onClick={() => handleSortChange('difficulty')}
-                className="block w-full px-4 py-2 text-left text-gray-700 text-sm rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200"
-              >
-                Difficulty {sortBy === 'difficulty' && (sortOrder === 'desc' ? '↓' : '↑')}
-              </button>
-            </div>
+                <button
+                  onClick={() => handleSortChange('rating')}
+                  className="block w-full px-4 py-2 text-left text-gray-700 text-sm 
+                    rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                >
+                  Rating {sortBy === 'rating' && (sortOrder === 'desc' ? '↓' : '↑')}
+                </button>
+                <button
+                  onClick={() => handleSortChange('time')}
+                  className="block w-full px-4 py-2 text-left text-gray-700 text-sm 
+                    rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                >
+                  Time {sortBy === 'time' && (sortOrder === 'desc' ? '↓' : '↑')}
+                </button>
+                <button
+                  onClick={() => handleSortChange('difficulty')}
+                  className="block w-full px-4 py-2 text-left text-gray-700 text-sm 
+                    rounded-lg hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                >
+                  Difficulty {sortBy === 'difficulty' && (sortOrder === 'desc' ? '↓' : '↑')}
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
