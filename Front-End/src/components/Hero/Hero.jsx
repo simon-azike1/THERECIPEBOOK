@@ -45,7 +45,7 @@ const Hero = () => {
             and share your favorite recipes with food enthusiasts worldwide.
           </p>
           <div className="hero-cta">
-            <Link to="/Register" className="LINK">
+            <Link to="/register" className="LINK">
               <button className="cta-button primary">
                 Start Cooking
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -55,7 +55,7 @@ const Hero = () => {
               </button>
             </Link>
 
-            <Link to="./RecipeVideo" className='LINK'>
+            <Link to="/recipe-video" className='LINK'>
             <button className="cta-button secondary">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>

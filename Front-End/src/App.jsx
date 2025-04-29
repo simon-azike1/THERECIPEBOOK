@@ -47,15 +47,14 @@ const App = () => {
         <Route path="/confirm-email" element={<EmailVerification />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/recipe-video" element={<RecipeVideo />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/recipes" element={<RecipePage />} />
 
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
-          <Route path="/recipe" element={<RecipePage />} />
-          <Route path="/recipe-video" element={<RecipeVideo />} />
           <Route path="/my-recipes" element={<MyRecipes />} />
-          <Route path="/recipes" element={<RecipePage />} />
         </Route>
 
         {/* Admin Routes */}
