@@ -7,6 +7,7 @@ import Footer from '../../components/Footer/Footer';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import { toast } from 'react-hot-toast';
 
+
 const RecipePage = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('all');
