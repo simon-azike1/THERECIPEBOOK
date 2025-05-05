@@ -14,7 +14,7 @@ import AdminDashboard from "./components/AdminDashBoard/dashboard";
 import PrivateRoute from './components/PrivateRoute';
 import EmailVerification from './pages/EmailVerification/EmailVerification';
 import MyRecipes from './pages/MyRecipes/MyRecipes';
-
+import RecipeView from './pages/RecipeView/RecipeView';
 
 const App = () => {
   return (  
@@ -50,7 +50,7 @@ const App = () => {
         <Route path="/recipe-video" element={<RecipeVideo />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/recipes" element={<RecipePage />} />
-
+        <Route path="/recipe/:id" element={<RecipeView />} />
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>

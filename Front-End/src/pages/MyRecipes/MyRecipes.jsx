@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getUserMealPlans, deleteMealPlan } from '../../features/mealPlanning/mealPlanningSlice';
+import { getUserMealPlans, deleteMealPlan, updateMealPlan } from '../../features/mealPlanning/mealPlanningSlice';
 import './myRecipes.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -15,7 +15,9 @@ const MyRecipes = () => {
   const { mealPlans, isLoading, isError, message } = useSelector(
     (state) => state.mealPlanning
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingRecipe, setEditingRecipe] = useState(null);
 
   useEffect(() => {
     dispatch(getUserMealPlans())
@@ -36,6 +38,25 @@ const MyRecipes = () => {
     }
   };
 
+  const handleEditRecipe = (recipe) => {
+    setEditingRecipe(recipe);
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateRecipe = async (updatedData) => {
+    try {
+      await dispatch(updateMealPlan({ 
+        id: editingRecipe._id, 
+        updateData: updatedData 
+      })).unwrap();
+      toast.success('Recipe updated successfully');
+      setIsEditModalOpen(false);
+      setEditingRecipe(null);
+    } catch (error) {
+      toast.error(error || 'Failed to update recipe');
+    }
+  };
+
   const filteredRecipes = mealPlans.filter(recipe => {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -48,8 +69,12 @@ const MyRecipes = () => {
     return true;
   });
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openCreateModal = () => setIsCreateModalOpen(true);
+  const closeCreateModal = () => setIsCreateModalOpen(false);
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setEditingRecipe(null);
+  };
 
   if (isLoading) {
     return (
@@ -82,7 +107,7 @@ const MyRecipes = () => {
               <i className="fas fa-search"></i>
             </div>
 
-            <button onClick={openModal} className="create-recipe-btn">
+            <button onClick={openCreateModal} className="create-recipe-btn">
               <i className="fas fa-plus"></i>
               Create New Recipe
             </button>
@@ -95,9 +120,9 @@ const MyRecipes = () => {
               <i className="fas fa-book-open"></i>
               <h2>No Recipes Yet</h2>
               <p>Start building your collection by creating your first recipe!</p>
-              <Link to="/my-recipes" className="create-first-recipe-btn">
+              <button onClick={openCreateModal} className="create-first-recipe-btn">
                 Create Your First Recipe
-              </Link>
+              </button>
             </div>
           </div>
         ) : (
@@ -125,9 +150,12 @@ const MyRecipes = () => {
                   <p className="recipe-description">{recipe.description}</p>
 
                   <div className="recipe-actions">
-                    <Link to={`/edit-recipe/${recipe._id}`} className="edit-btn">
+                    <button
+                      onClick={() => handleEditRecipe(recipe)}
+                      className="edit-btn"
+                    >
                       <i className="fas fa-edit"></i> Edit
-                    </Link>
+                    </button>
                     <button
                       onClick={() => handleDeleteRecipe(recipe._id)}
                       className="delete-btn"
@@ -144,10 +172,22 @@ const MyRecipes = () => {
           </div>
         )}
 
+        {/* Create Recipe Modal */}
         <CreateRecipeModal 
-          isOpen={isModalOpen} 
-          onClose={closeModal} 
+          isOpen={isCreateModalOpen} 
+          onClose={closeCreateModal} 
         />
+
+        {/* Edit Recipe Modal */}
+        {editingRecipe && (
+          <CreateRecipeModal 
+            isOpen={isEditModalOpen}
+            onClose={closeEditModal}
+            initialData={editingRecipe}
+            isEditing={true}
+            onSave={handleUpdateRecipe}
+          />
+        )}
       </div>
       <Footer />
     </div>

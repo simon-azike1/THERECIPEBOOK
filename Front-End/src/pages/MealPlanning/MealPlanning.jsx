@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createMealPlan, reset } from '../../features/mealPlanning/mealPlanningSlice';
+import { createMealPlan, reset, getUserMealPlans, deleteMealPlan, updateMealPlan } from '../../features/mealPlanning/mealPlanningSlice';
 import './mealPlanning.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import { toast } from 'react-hot-toast';
+
 
 const MealPlanningForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { isLoading, isError, isSuccess, message } = useSelector(
+  const { isLoading, isError, isSuccess, message, mealPlans } = useSelector(
     (state) => state.mealPlanning
   );
 
@@ -45,6 +46,8 @@ const MealPlanningForm = () => {
     'Dairy-Free', 'Nut-Free', 'Halal', 'Kosher'
   ];
 
+  const [editingPlan, setEditingPlan] = useState(null);
+
   useEffect(() => {
     if (!user) {
       navigate('/login');
@@ -62,6 +65,8 @@ const MealPlanningForm = () => {
       dispatch(reset());
       navigate('/my-recipes');
     }
+
+    dispatch(getUserMealPlans());
 
     return () => {
       dispatch(reset());
@@ -162,6 +167,22 @@ const MealPlanningForm = () => {
     } catch (error) {
       toast.error(error || 'Failed to create recipe');
     }
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this recipe?')) {
+      dispatch(deleteMealPlan(id));
+    }
+  };
+
+  const handleEdit = (plan) => {
+    setEditingPlan(plan);
+  };
+
+  const handleUpdate = (updatedData) => {
+    dispatch(updateMealPlan({ id: editingPlan._id, updateData: updatedData }))
+      .unwrap()
+      .then(() => setEditingPlan(null));
   };
 
   if (isLoading) {

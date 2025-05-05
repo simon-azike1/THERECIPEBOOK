@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createMealPlan } from '../../features/mealPlanning/mealPlanningSlice';
 import { toast } from 'react-hot-toast';
 import './createRecipeModal.css';
 
-const CreateRecipeModal = ({ isOpen, onClose }) => {
+const CreateRecipeModal = ({ 
+  isOpen, 
+  onClose, 
+  initialData = null, 
+  isEditing = false,
+  onSave = null 
+}) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.mealPlanning);
@@ -39,6 +45,15 @@ const CreateRecipeModal = ({ isOpen, onClose }) => {
     'Vegan', 'Vegetarian', 'Gluten-Free', 
     'Dairy-Free', 'Nut-Free', 'Halal', 'Kosher'
   ];
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        ...initialData,
+        recipeImage: null // Reset image to null for new upload
+      });
+    }
+  }, [initialData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -132,11 +147,15 @@ const CreateRecipeModal = ({ isOpen, onClose }) => {
         return;
       }
 
-      await dispatch(createMealPlan(formData)).unwrap();
+      if (isEditing) {
+        await onSave(formData);
+      } else {
+        await dispatch(createMealPlan(formData)).unwrap();
+      }
       toast.success('Recipe created successfully!');
       onClose();
     } catch (error) {
-      toast.error(error || 'Failed to create recipe');
+      toast.error(error || `Failed to ${isEditing ? 'update' : 'create'} recipe`);
     }
   };
 
@@ -146,7 +165,7 @@ const CreateRecipeModal = ({ isOpen, onClose }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Create New Recipe</h2>
+          <h2>{isEditing ? 'Edit Recipe' : 'Create New Recipe'}</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
