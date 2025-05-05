@@ -46,7 +46,7 @@ const Footer = () => {
             <div className="footer-section">
               <h4>Quick Links</h4>
               <ul>
-                <li><Link to="http://localhost:5173/">Home</Link></li>
+                <li><Link to="/">Home</Link></li>
                 <li><Link to="/recipe">Recipes</Link></li>
                 <li><Link to="/meal-planning">Meal Planner</Link></li>
                 <li><Link to="/about">About Us</Link></li>
