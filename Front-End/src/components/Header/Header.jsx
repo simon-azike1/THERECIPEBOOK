@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/auth/authSlice';
+import "./header.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,9 +12,12 @@ const Header = () => {
   const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -45,12 +49,15 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
+          <Link to="/" className="flex items-center space-x-2">
             <img 
               src="https://s.tmimgcdn.com/scr/1200x750/332800/cooking-tips-and-secret-recipes-food-related-book-cover-design_332805-original.jpg"
               className="h-12 w-12 rounded-lg border-2 border-yellow-400 transition hover:opacity-80"
               alt="Logo"
             />
+            <span className={`logo-name ${isScrolled ? 'text-scrolled' : ''}`}>
+              TheRecipeBook
+            </span>
           </Link>
 
           {/* Mobile menu button */}
@@ -74,7 +81,7 @@ const Header = () => {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className={`hidden lg:flex lg:items-center lg:space-x-8`}>
+          <nav className="hidden lg:flex lg:items-center lg:space-x-8">
             {navLinks.map(({ to, text }) => (
               <Link
                 key={to}

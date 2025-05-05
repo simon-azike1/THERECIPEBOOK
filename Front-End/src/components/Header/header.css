@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inder&family=Pacifico&display=swap');
+
 :root {
   /* Primary Colors */
   --primary-blue: #2B4C7E;
@@ -56,13 +58,51 @@
   border: 2px solid var(--primary-yellow);
 }
 
-.logo {
+.flex-shrink-0 {
+  display:flex;
   margin-left: 10%;
+  gap:0.5rem;
+  flex:end;
 }
 
-.logo:hover {
-  opacity: 0.8;
+.logo-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: "Pacifico", cursive;
+  color: #333;
+  transition: color 0.3s ease;
 }
+
+.logo-name {
+  font-weight: bold;
+  transition: color 0.5s ease-in, transform 0.5s ease-in;
+  display: inline-block;
+}
+
+.flex-shrink-0{
+  font-weight: bold;
+  transition: color 0.5s ease-in, transform 0.5s ease-in;
+  display: inline-block; 
+}
+
+.logo-name:hover {
+  color:#5ca52d; 
+  transform: scale(1.1);      
+}
+
+.logo-name.text-scrolled {
+  color: #f59e0b; 
+}
+
+
+.logo-name{
+  margin-top:10px;
+  font-weight:bold;
+  font-style:italic;
+  color:#3a5d8f;
+}
+
+
 
 .nav-links {
   display: flex;
