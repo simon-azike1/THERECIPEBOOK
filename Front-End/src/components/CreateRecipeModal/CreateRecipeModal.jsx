@@ -246,6 +246,7 @@ const CreateRecipeModal = ({
                   value={formData.preparationTime}
                   onChange={handleInputChange}
                   min="0"
+                  placeholder="Please enter prep time"
                   required
                 />
               </div>
@@ -259,6 +260,7 @@ const CreateRecipeModal = ({
                   value={formData.cookingTime}
                   onChange={handleInputChange}
                   min="0"
+                  placeholder="Please enter cook time"
                   required
                 />
               </div>
@@ -272,6 +274,7 @@ const CreateRecipeModal = ({
                   value={formData.servingSize}
                   onChange={handleInputChange}
                   min="1"
+                  placeholder="Please enter serving number"
                   required
                 />
               </div>

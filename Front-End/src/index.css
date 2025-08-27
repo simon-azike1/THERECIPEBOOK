@@ -5,32 +5,42 @@
 @tailwind utilities;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  :root {
-    --primary-blue-rgb: 43, 76, 126;
-    --primary-blue: #2b4c7e;
-    --light-blue: #3a5d8f;
-    --text-dark: #1a1a1a;
-  }
+body {
+  font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--primary-blue); 
+  color: var(--text-dark); 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
 
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+html, body {
+  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300;
+}
+:root {
+  --primary-blue-rgb: 43, 76, 126;
+  --primary-blue: #2b4c7e; 
+  --light-blue: #3a5d8f;   
+  --text-dark: #1a1a1a;    
+  --dark-background: #121212; 
+  --dark-text: #e2e8f0;     
+}
+
+
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+

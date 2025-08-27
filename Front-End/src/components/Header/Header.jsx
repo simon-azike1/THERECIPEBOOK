@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/auth/authSlice';
 import "./header.css";
 
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,7 +22,7 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    setIsMenuOpen(false);  // Close menu on route change
+    setIsMenuOpen(false);  
   }, [location]);
 
   const toggleMenu = () => setIsMenuOpen(prevState => !prevState);
@@ -60,25 +61,27 @@ const Header = () => {
             </span>
           </Link>
 
-          {/* Mobile menu button */}
-          <button 
-            className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-            onClick={toggleMenu}
-          >
-            <span className="sr-only">Open menu</span>
-            <svg
-              className={`h-6 w-6 transition-transform duration-200 ${isMenuOpen ? 'transform rotate-180' : ''}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
+         
+
+       {/* Mobile menu button */}
+<button 
+  className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+  onClick={toggleMenu}
+>
+  <span className="sr-only">Open menu</span>
+  <svg
+    className={`h-6 w-6 transition-transform duration-200 ${isMenuOpen ? 'transform rotate-180' : ''}`}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    {isMenuOpen ? (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    ) : (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+    )}
+  </svg>
+</button>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex lg:items-center lg:space-x-8">
@@ -89,15 +92,63 @@ const Header = () => {
                 className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200
                   ${location.pathname === to 
                     ? 'text-blue-600' 
-                    : 'text-gray-700 hover:text-blue-600'}
-                  before:absolute before:left-0 before:bottom-0 before:h-0.5 
-                  before:w-0 before:bg-yellow-400 before:transition-all before:duration-200
-                  hover:before:w-full`}
+                    : 'text-gray-700 hover:text-blue-600'}`}
               >
                 {text}
               </Link>
             ))}
           </nav>
+
+       {/* Mobile Navigation (Slide-in from Right) */}
+<div
+  className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-40
+    ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
+>
+  <div className="flex flex-col items-center space-y-6 py-10">
+    {navLinks.map(({ to, text }) => (
+      <Link
+        key={to}
+        to={to}
+        className={`text-gray-700 text-lg font-medium transition-colors duration-200
+          ${location.pathname === to ? 'text-blue-600' : 'hover:text-blue-600'}`}
+        onClick={() => setIsMenuOpen(false)} // close menu on click
+      >
+        {text}
+      </Link>
+    ))}
+
+    {/* Auth buttons */}
+    {user ? (
+      <button
+        onClick={handleLogout}
+        className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-full
+          hover:bg-green-700 transition-colors duration-200"
+      >
+        Logout
+      </button>
+    ) : (
+      <>
+        <Link
+          to="/login"
+          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-full
+            hover:bg-blue-700 transition-colors duration-200"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Login
+        </Link>
+        <Link
+          to="/register"
+          className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-full
+            hover:bg-green-700 transition-colors duration-200"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Register
+        </Link>
+      </>
+    )}
+  </div>
+</div>
+
 
           {/* Auth Buttons */}
           <div className="hidden lg:flex lg:items-center lg:space-x-4">
@@ -132,75 +183,6 @@ const Header = () => {
                 </Link>
               </>
             )}
-          </div>
-
-          {/* Mobile Navigation */}
-          <div
-            className={`${
-              isMenuOpen ? 'fixed inset-0 bg-gray-800 bg-opacity-50 z-40' : 'hidden'
-            } lg:hidden transition-opacity duration-200`}
-            onClick={toggleMenu}
-          >
-            <div
-              className={`fixed top-0 right-0 bottom-0 w-64 bg-white transform transition-transform duration-300 ease-in-out ${
-                isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-              }`}
-              onClick={e => e.stopPropagation()}
-            >
-              <div className="flex flex-col h-full pt-20 pb-6 px-4">
-                <nav className="flex-1 space-y-2">
-                  {navLinks.map(({ to, text }) => (
-                    <Link
-                      key={to}
-                      to={to}
-                      className={`block px-4 py-2 text-base font-medium rounded-lg transition-colors duration-200
-                        ${location.pathname === to
-                          ? 'text-blue-600 bg-blue-50'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'}`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {text}
-                    </Link>
-                  ))}
-                </nav>
-
-                <div className="pt-6 space-y-3">
-                  {user ? (
-                    <>
-                      <p className="px-4 text-sm font-medium text-gray-700">
-                        {user.name}
-                      </p>
-                      <button
-                        onClick={handleLogout}
-                        className="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg
-                          hover:bg-green-700 transition-colors duration-200"
-                      >
-                        Logout
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        to="/login"
-                        className="block w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-600 
-                          rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Login
-                      </Link>
-                      <Link
-                        to="/register"
-                        className="block w-full px-4 py-2 text-sm font-medium text-center text-white bg-green-600 
-                          rounded-lg hover:bg-green-700 transition-colors duration-200"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Register
-                      </Link>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

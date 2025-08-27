@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 import "./index.css";
+
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -16,9 +17,10 @@ import EmailVerification from './pages/EmailVerification/EmailVerification';
 import MyRecipes from './pages/MyRecipes/MyRecipes';
 import RecipeView from './pages/RecipeView/RecipeView';
 
+
 const App = () => {
-  return (  
-    <div className="app">
+  return (
+    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300">
       <Toaster
         position="top-right"
         toastOptions={{
@@ -39,6 +41,8 @@ const App = () => {
           },
         }}
       />
+
+
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />

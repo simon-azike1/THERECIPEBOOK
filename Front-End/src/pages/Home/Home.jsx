@@ -1,14 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Header from '../../components/Header/Header'
-import Hero from '../../components/Hero/Hero'
-import Features from '../../components/Features/Features'
-import FeaturedRecipes from '../../components/FeaturedRecipes/FeaturedRecipes'
-import CTASection from '../../components/CTASection/CTASection'
-import Footer from '../../components/Footer/Footer'
-import Newsletter from '../../components/Newsletter/Newsletter'
-import Testimonials from '../../components/Testimonials/Testimonials'
+import Header from '../../components/Header/Header';
+import Hero from '../../components/Hero/Hero';
+import Features from '../../components/Features/Features';
+import FeaturedRecipes from '../../components/FeaturedRecipes/FeaturedRecipes';
+import CTASection from '../../components/CTASection/CTASection';
+import Footer from '../../components/Footer/Footer';
+import Newsletter from '../../components/Newsletter/Newsletter';
+import Testimonials from '../../components/Testimonials/Testimonials';
 
 const Home = () => {
   const { recipes } = useSelector((state) => state.recipes);
@@ -24,7 +23,7 @@ const Home = () => {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
         <Header />
         <Hero />
         <Features />
@@ -45,7 +44,7 @@ const Home = () => {
         <Testimonials />
         <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

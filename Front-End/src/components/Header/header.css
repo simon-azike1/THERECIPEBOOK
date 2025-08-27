@@ -40,6 +40,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header-container {
@@ -59,10 +60,10 @@
 }
 
 .flex-shrink-0 {
-  display:flex;
+  display: flex;
   margin-left: 10%;
-  gap:0.5rem;
-  flex:end;
+  gap: 0.5rem;
+  justify-content: flex-end; /* Changed to justify-content for proper alignment */
 }
 
 .logo-name {
@@ -79,14 +80,8 @@
   display: inline-block;
 }
 
-.flex-shrink-0{
-  font-weight: bold;
-  transition: color 0.5s ease-in, transform 0.5s ease-in;
-  display: inline-block; 
-}
-
 .logo-name:hover {
-  color:#5ca52d; 
+  color: #5ca52d; 
   transform: scale(1.1);      
 }
 
@@ -94,15 +89,12 @@
   color: #f59e0b; 
 }
 
-
-.logo-name{
-  margin-top:10px;
-  font-weight:bold;
-  font-style:italic;
-  color:#3a5d8f;
+.logo-name {
+  margin-top: 10px;
+  font-weight: bold;
+  font-style: italic;
+  color: #3a5d8f;
 }
-
-
 
 .nav-links {
   display: flex;
@@ -118,8 +110,8 @@
   font-size: 1rem;
   transition: all 0.3s ease;
   position: relative;
-  padding: .7rem ;
-  margin: 15px;
+  padding: 0.7rem;
+  margin: 8px 0; 
 }
 
 .nav-links a.active {
@@ -164,20 +156,21 @@
 }
 
 .login-btn {
-  color: white !important;
+  color: white;
   background: var(--primary-blue);
+  border: 1px solid var(--primary-blue); 
 }
 
 .signup-btn {
-  color: var(--white) !important;
+  color: var(--white);
   background: var(--primary-green);
+  border: 1px solid var(--primary-green); 
 }
 
 .logout-btn {
-  background: var(--primary-green);
   color: var(--white);
-  border: none;
-  border-radius: 5px;
+  background: var(--primary-green);
+  border: 1px solid var(--primary-green); 
 }
 
 .user-name {
@@ -236,8 +229,6 @@
 }
 
 @media (max-width: 768px) {
-  /* Hide overlay and make nav more accessible */
-
   .nav-links {
     position: fixed;
     top: 0;
@@ -249,15 +240,15 @@
     justify-content: flex-start;
     background: var(--white);
     padding: calc(var(--header-height) + 2rem) 2rem 2rem;
-    transition: all 0.3s ease;
+    transition: right 0.3s ease; 
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   }
 
-.nav-links a{
-display: block;
-color: var(--primary-blue);
-margin: 10px;
-}
+  .nav-links a {
+    display: block;
+    color: var(--primary-blue);
+    margin: 10px 0;
+  }
 
   .nav-links.active {
     right: 0;
@@ -271,5 +262,9 @@ margin: 10px;
 @media (max-width: 480px) {
   .header-container {
     padding: 0 1rem;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
   }
 }
