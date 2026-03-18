@@ -167,9 +167,13 @@ export const sendEmail = async (to, subject, text, template, context) => {
   }
 
   try {
-    await transporter.sendMail(mailOptions)
-    console.log('Email sent successfully')
+    const info = await transporter.sendMail(mailOptions)
+    console.log('Email sent successfully to:', to)
+    console.log('Message ID:', info.messageId)
+    return { success: true, messageId: info.messageId }
   } catch (error) {
     console.error('Error sending email:', error)
+    console.error('Email details:', { to, subject })
+    throw error // Re-throw to let caller handle it
   }
 }

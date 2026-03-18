@@ -43,23 +43,31 @@ export const registerService = async ({data}, callback) => {
     );
     const verificationUrl = `${process.env.FRONTEND_URL}/confirm-email?token=${confirmationToken}`;
 
-    // Send verification email
-    await sendEmail(
-      newUser.email,
-      'Verify Your Email',
-      'Please confirm your email address',
-      'emailConfirmation',
-      {
-        username: newUser.name,
-        verificationUrl
-      }
-    );
-
-    // Save user
+    // Save user first
     const savedUser = await newUser.save();
+
+    // Send verification email (don't block registration if email fails)
+    try {
+      await sendEmail(
+        newUser.email,
+        'Verify Your Email',
+        'Please confirm your email address',
+        'emailConfirmation',
+        {
+          username: newUser.name,
+          verificationUrl
+        }
+      );
+      console.log('Verification email sent to:', newUser.email);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Continue with registration even if email fails
+    }
+
     return callback(messageHandler("User registered successfully, a verification link has been sent to your email", true, SUCCESS, savedUser));
 
   } catch (error) {
+    console.error('Registration error:', error);
     return callback(messageHandler("Failed to register user", false, BAD_REQUEST, {}));
   }
 }
