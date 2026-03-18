@@ -17,11 +17,15 @@ const Login = () => {
   const { user, isLoading, isSuccess, isError, message } = useSelector(state => state.auth);
 
   useEffect(() => {
+    console.log('Login state:', { isError, isSuccess, user, message });
+    
     if (isError) {
       toast.error(message);
     }
 
-    if (isSuccess || user) {
+    // Only navigate if we have both success and a valid user with token
+    if (isSuccess && user && user._id) {
+      console.log('Navigating to /my-recipes');
       toast.success('Login successful!');
       navigate('/my-recipes');
     }
