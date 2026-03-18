@@ -30,7 +30,11 @@ const RecipePage = () => {
     dispatch(getAllRecipes())
       .unwrap()
       .catch((error) => {
-        toast.error(error || 'Failed to fetch recipes');
+        console.error('Error fetching recipes:', error);
+        // Don't show error toast if it's just an empty database
+        if (error && !error.includes('No recipes found')) {
+          toast.error(error || 'Failed to fetch recipes');
+        }
       });
   }, [dispatch]);
 

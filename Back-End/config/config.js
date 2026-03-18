@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 // MongoDB URL
-const MONGODB_URL = process.env.MONGODB_URL
+const MONGODB_URL = process.env.MONGO_URI
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 1337
 

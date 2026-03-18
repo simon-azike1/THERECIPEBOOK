@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseURL = 'https://therecipebook-4uw5.onrender.com/api/v1';
+const baseURL = 'http://localhost:5000/api/v1';
 
 
 // Get all recipes (public)
@@ -10,11 +10,21 @@ export const getAllRecipes = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(`${baseURL}/user/recipes`);
-      return response.data.result.data;
+      // Handle both success and error responses from backend
+      if (response.data.result.success) {
+        return response.data.result.data || [];
+      } else {
+        return thunkAPI.rejectWithValue(
+          response.data.result.message || 'Failed to fetch recipes'
+        );
+      }
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || 'Failed to fetch recipes'
-      );
+      // If there's a network error or the backend returns an error status
+      const errorMessage = error.response?.data?.result?.message || 
+                          error.response?.data?.message || 
+                          error.message ||
+                          'Failed to fetch recipes';
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
