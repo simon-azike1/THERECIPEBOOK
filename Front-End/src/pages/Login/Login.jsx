@@ -27,7 +27,13 @@ const Login = () => {
       navigate('/my-recipes');
     } else if (isSuccess && !user && message) {
       // Handle case where backend returns success but no user (e.g., email not verified)
-      toast.info(message);
+      toast(message, {
+        icon: 'ℹ️',
+        style: {
+          background: '#2196F3',
+          color: '#fff',
+        },
+      });
     }
 
     return () => {
