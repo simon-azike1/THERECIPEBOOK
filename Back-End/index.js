@@ -10,37 +10,45 @@ import morgan from 'morgan'
 import { setupSwagger } from './config/swagger.js'
 
 const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 5000
 
-// helmet to secure app by setting http response headers
+// Security
 app.use(helmet())
 app.use(morgan('tiny'))
 
-// middlewares
+// Body parsers
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+// CORS - Frontend Vite ports + Vercel
 app.use(cors({
-  origin: ['http://localhost:5174', 'https://therecipebook-liard.vercel.app'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174', 
+    'http://localhost:5175',
+    'https://therecipebook-liard.vercel.app'
+  ],
   credentials: true
 }))
 
-// routes
-// swagger
+// Routes
 setupSwagger(app)
 router(app)
 
-// home
+// Health check
 app.get('/', (req, res) => {
   res.json({success: true, message: 'Backend Connected Successfully'})
 })
 
-// error handler
+// Error handler
 app.use(handleErrors)
 
-// connect to database
+// DB
 connectToDB()
 
-app.listen(port, ()=> {
+const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`)
 })
+
+export default server
+

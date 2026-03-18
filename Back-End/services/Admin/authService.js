@@ -2,7 +2,6 @@ import Admin from '../../schema/Admin/authSchema.js'
 import { messageHandler, hashPassword, verifyPassword, generateToken, passwordValidator } from '../../utils/index.js'
 import { BAD_REQUEST, SUCCESS, UNAUTHORIZED } from '../../constants/statusCode.js'
 
-
 export const registerAdminService = async ({data}, callback) => {
   const { email, password } = data
   
@@ -59,3 +58,4 @@ export const loginAdminService = ({data}, callback) => {
     return callback(messageHandler("Invalid password", false, UNAUTHORIZED, {}))
   })
 }
+

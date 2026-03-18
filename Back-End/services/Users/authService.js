@@ -40,29 +40,8 @@ export const registerService = async ({data}, callback) => {
     // Save user
     const savedUser = await newUser.save();
 
-    // Optional: Send welcome email (don't block registration if email fails)
-    try {
-      const confirmationToken = await generateToken(
-        { id: newUser._id, email: newUser.email },
-        '1d'
-      );
-      const verificationUrl = `${process.env.FRONTEND_URL}/confirm-email?token=${confirmationToken}`;
-      
-      await sendEmail(
-        newUser.email,
-        'Welcome to The Recipe Book',
-        'Welcome to our platform',
-        'emailConfirmation',
-        {
-          username: newUser.name,
-          verificationUrl
-        }
-      );
-      console.log('Welcome email sent to:', newUser.email);
-    } catch (emailError) {
-      console.error('Failed to send welcome email:', emailError);
-      // Continue with registration even if email fails
-    }
+    // Email sending completely disabled for faster registration
+    console.log('User registered:', newUser.email);
 
     return callback(messageHandler("User registered successfully! You can now login.", true, SUCCESS, savedUser));
 
