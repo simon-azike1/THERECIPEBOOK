@@ -20,7 +20,10 @@ app.use(morgan('tiny'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-app.use(cors())
+app.use(cors({
+  origin: ['http://localhost:5174', 'https://therecipebook-liard.vercel.app'],
+  credentials: true
+}))
 
 // routes
 // swagger
