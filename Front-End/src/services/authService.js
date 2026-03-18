@@ -4,17 +4,43 @@ const BASE_URL = 'https://therecipebook-4uw5.onrender.com/api/v1/user';
 
 const authService = {
   register: async (userData) => {
-    const response = await axios.post(`${BASE_URL}/register`, userData);
-    return response.data;
+    try {
+      const response = await axios.post(`${BASE_URL}/register`, userData);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMessage = error.response.data?.result?.message || 'Registration failed';
+        throw new Error(errorMessage);
+      } else if (error.request) {
+        throw new Error('No response from server. Please check your connection.');
+      } else {
+        throw new Error('An error occurred during registration');
+      }
+    }
   },
 
   login: async (credentials) => {
-    const response = await axios.post(`${BASE_URL}/login`, credentials);
-    if (response.data.result.data.token) {
-      localStorage.setItem('userToken', response.data.result.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.result.data.user));
+    try {
+      const response = await axios.post(`${BASE_URL}/login`, credentials);
+      if (response.data?.result?.data?.token) {
+        localStorage.setItem('userToken', response.data.result.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.result.data.user));
+      }
+      return response.data;
+    } catch (error) {
+      // Enhanced error handling
+      if (error.response) {
+        // Server responded with error status
+        const errorMessage = error.response.data?.result?.message || 'Login failed';
+        throw new Error(errorMessage);
+      } else if (error.request) {
+        // Request made but no response received
+        throw new Error('No response from server. Please check your connection.');
+      } else {
+        // Something else happened
+        throw new Error('An error occurred during login');
+      }
     }
-    return response.data;
   },
 
   verifyEmail: async (token) => {

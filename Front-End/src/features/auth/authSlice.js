@@ -20,7 +20,7 @@ export const register = createAsyncThunk(
     try {
       return await authService.register(userData);
     } catch (error) {
-      const message = error.response?.data?.result?.message || error.message;
+      const message = error.message || error.response?.data?.result?.message || 'Registration failed';
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -33,7 +33,7 @@ export const login = createAsyncThunk(
     try {
       return await authService.login(credentials);
     } catch (error) {
-      const message = error.response?.data?.result?.message || error.message;
+      const message = error.message || error.response?.data?.result?.message || 'Login failed';
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -81,7 +81,7 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = action.payload.result.message;
+        state.message = action.payload?.result?.message || 'Registration successful';
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
@@ -95,9 +95,9 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload.result.data.user;
-        state.token = action.payload.result.data.token;
-        state.message = action.payload.result.message;
+        state.user = action.payload?.result?.data?.user || null;
+        state.token = action.payload?.result?.data?.token || null;
+        state.message = action.payload?.result?.message || 'Login successful';
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -111,7 +111,7 @@ const authSlice = createSlice({
       .addCase(verifyEmail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = action.payload.result.message;
+        state.message = action.payload?.result?.message || 'Email verified successfully';
         if (state.user) {
           state.user.isVerified = true;
         }
