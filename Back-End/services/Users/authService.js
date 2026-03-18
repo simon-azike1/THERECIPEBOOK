@@ -28,43 +28,43 @@ export const registerService = async ({data}, callback) => {
       return callback(messageHandler("Passwords do not match", false, VALIDATION_ERROR, {}));
     }
 
-    // Create new user
+    // Create new user with email already verified
     const hashedPassword = await hashPassword(password);
     const newUser = new User({
       name,
-      email, 
-      password: hashedPassword
+      email,
+      password: hashedPassword,
+      isVerified: true // Auto-verify users (email verification disabled)
     });
 
-    // Generate email verification token and URL
-    const confirmationToken = await generateToken(
-      { id: newUser._id, email: newUser.email },
-      '1d'
-    );
-    const verificationUrl = `${process.env.FRONTEND_URL}/confirm-email?token=${confirmationToken}`;
-
-    // Save user first
+    // Save user
     const savedUser = await newUser.save();
 
-    // Send verification email (don't block registration if email fails)
+    // Optional: Send welcome email (don't block registration if email fails)
     try {
+      const confirmationToken = await generateToken(
+        { id: newUser._id, email: newUser.email },
+        '1d'
+      );
+      const verificationUrl = `${process.env.FRONTEND_URL}/confirm-email?token=${confirmationToken}`;
+      
       await sendEmail(
         newUser.email,
-        'Verify Your Email',
-        'Please confirm your email address',
+        'Welcome to The Recipe Book',
+        'Welcome to our platform',
         'emailConfirmation',
         {
           username: newUser.name,
           verificationUrl
         }
       );
-      console.log('Verification email sent to:', newUser.email);
+      console.log('Welcome email sent to:', newUser.email);
     } catch (emailError) {
-      console.error('Failed to send verification email:', emailError);
+      console.error('Failed to send welcome email:', emailError);
       // Continue with registration even if email fails
     }
 
-    return callback(messageHandler("User registered successfully, a verification link has been sent to your email", true, SUCCESS, savedUser));
+    return callback(messageHandler("User registered successfully! You can now login.", true, SUCCESS, savedUser));
 
   } catch (error) {
     console.error('Registration error:', error);
@@ -89,9 +89,10 @@ export const loginService = async ({data}, callback) => {
       return callback(messageHandler("Invalid password", false, BAD_REQUEST));
     }
 
-    if (!user.isVerified) {
-      return callback(messageHandler("Please confirm your email. A confirmation link has been sent", true, SUCCESS));
-    }
+    // Email verification check disabled - users can login directly
+    // if (!user.isVerified) {
+    //   return callback(messageHandler("Please confirm your email. A confirmation link has been sent", true, SUCCESS));
+    // }
 
     const token = generateToken({id: user._id, email: user.email});
     return callback(messageHandler("User logged in successfully", true, SUCCESS, {user, token}));
