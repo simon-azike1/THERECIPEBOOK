@@ -1,15 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseURL = 'https://therecipebook-4uw5.onrender.com/api/v1';
+import { USER_API } from '../../config/api';
 
+const baseURL = USER_API;
 
 // Get all recipes (public)
 export const getAllRecipes = createAsyncThunk(
   'recipes/getAllRecipes',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(`${baseURL}/user/recipes`);
+      const response = await axios.get(`${baseURL}/recipes`);
       // Handle both success and error responses from backend
       if (response.data.result.success) {
         return response.data.result.data || [];
@@ -63,4 +64,4 @@ const recipesSlice = createSlice({
 });
 
 export const { reset } = recipesSlice.actions;
-export default recipesSlice.reducer; 
+export default recipesSlice.reducer;

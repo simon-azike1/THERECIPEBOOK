@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-const baseURL = 'http://localhost:5000/api/v1';
+import { ADMIN_API } from '../../config/api';
 
 // Admin Login
 export const loginAdmin = createAsyncThunk(
   'admin/login',
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.post(`${baseURL}/admin/login`, userData);
+      const response = await axios.post(`${ADMIN_API}/login`, userData);
       if (response.data) {
         localStorage.setItem('adminToken', response.data.result.data.token);
         return response.data.result.data;
@@ -30,7 +29,7 @@ export const getAllUsers = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       };
-      const response = await axios.get(`${baseURL}/admin/users`, config);
+      const response = await axios.get(`${ADMIN_API}/users`, config);
       return response.data.result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -50,7 +49,7 @@ export const approveUser = createAsyncThunk(
         },
       };
       const response = await axios.patch(
-        `${baseURL}/admin/users/${userId}/approve`,
+        `${ADMIN_API}/users/${userId}/approve`,
         {},
         config
       );
@@ -72,7 +71,7 @@ export const getUserById = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       };
-      const response = await axios.get(`${baseURL}/admin/users/${userId}`, config);
+      const response = await axios.get(`${ADMIN_API}/users/${userId}`, config);
       return response.data.result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -91,7 +90,7 @@ export const deleteUser = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.delete(`${baseURL}/admin/users/${userId}`, config);
+      await axios.delete(`${ADMIN_API}/users/${userId}`, config);
       return userId;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -111,7 +110,7 @@ export const updateUser = createAsyncThunk(
         },
       };
       const response = await axios.put(
-        `${baseURL}/admin/users/${userId}`,
+        `${ADMIN_API}/users/${userId}`,
         userData,
         config
       );

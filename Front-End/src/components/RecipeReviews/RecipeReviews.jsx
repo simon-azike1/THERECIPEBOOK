@@ -4,8 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { Star, Loader2, Trash2, MessageSquare, Send, User } from 'lucide-react';
+import {USER_API} from '../../config/api'
 
-const API = 'http://localhost:5000/api/v1/user/feedback';
+const API = `${USER_API}/feedback`;
 
 const getConfig = () => ({
   headers: { Authorization: `Bearer ${localStorage.getItem('userToken')}` },

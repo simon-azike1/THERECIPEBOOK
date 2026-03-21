@@ -18,6 +18,8 @@ import MyRecipes from './pages/MyRecipes/MyRecipes';
 import RecipeView from './pages/RecipeView/RecipeView';
 import MealPlanning from "./pages/MealPlanning/MealPlanning"
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword"
+import ScrollToTop from "./components/ScrollToTop";
+
 
 
 const App = () => {
@@ -73,6 +75,8 @@ const App = () => {
           <Route path="recipe" element={<RecipePage />} />
         </Route>
       </Routes>
+      
+      <ScrollToTop />
     </div>
   );
 };

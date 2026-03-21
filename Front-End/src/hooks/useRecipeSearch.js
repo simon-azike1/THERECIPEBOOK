@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { USER_API } from '../config/api';
 
 export const useRecipeSearch = (query) => {
   const [results, setResults] = useState([]);
@@ -17,7 +18,7 @@ export const useRecipeSearch = (query) => {
 
       try {
         // Replace with your actual API endpoint
-        const response = await fetch(`/api/recipes/search?q=${encodeURIComponent(query)}`);
+        const response = await fetch(`${USER_API}/recipes/search?q=${encodeURIComponent(query)}`);
         const data = await response.json();
         setResults(data);
       } catch (err) {

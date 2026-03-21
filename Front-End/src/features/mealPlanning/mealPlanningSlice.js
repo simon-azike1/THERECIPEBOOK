@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { USER_API } from '../../config/api';
 
-const baseURL = 'http://localhost:5000/api/v1';
+const baseURL = USER_API;
 
 // Create Meal Plan
 export const createMealPlan = createAsyncThunk(
@@ -47,7 +48,7 @@ export const createMealPlan = createAsyncThunk(
       });
 
       const response = await axios.post(
-        `${baseURL}/user/meal-planning`,
+        `${baseURL}/meal-planning`,
         formData,
         config
       );
@@ -70,7 +71,7 @@ export const getUserMealPlans = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       };
-      const response = await axios.get(`${baseURL}/user/meal-planning`, config);
+      const response = await axios.get(`${baseURL}/meal-planning`, config);
       return response.data.result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.result?.message || 'Failed to fetch recipes');
@@ -89,7 +90,7 @@ export const getMealPlanById = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       };
-      const response = await axios.get(`${baseURL}/user/meal-planning/${id}`, config);
+      const response = await axios.get(`${baseURL}/meal-planning/${id}`, config);
       return response.data.result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.result?.message || 'Failed to fetch recipe');
@@ -123,7 +124,7 @@ export const updateMealPlan = createAsyncThunk(
       });
 
       const response = await axios.put(
-        `${baseURL}/user/meal-planning/${id}`,
+        `${baseURL}/meal-planning/${id}`,
         formData,
         config
       );
@@ -145,7 +146,7 @@ export const deleteMealPlan = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.delete(`${baseURL}/user/meal-planning/${id}`, config);
+      await axios.delete(`${baseURL}/meal-planning/${id}`, config);
       return id;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.result?.message || 'Failed to delete recipe');
@@ -255,4 +256,4 @@ const mealPlanningSlice = createSlice({
 });
 
 export const { reset, clearCurrentMealPlan } = mealPlanningSlice.actions;
-export default mealPlanningSlice.reducer; 
+export default mealPlanningSlice.reducer;
