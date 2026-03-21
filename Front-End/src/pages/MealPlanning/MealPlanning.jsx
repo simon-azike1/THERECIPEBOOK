@@ -713,7 +713,7 @@ const MealPlanning = () => {
               <span className="hidden sm:inline">Shopping List</span>
             </motion.button>
             {plannedCount > 0 && (
-              <button onClick={clearWeek} className="flex items-center gap-1.5 px-3 py-2.5 bg-red-50 hover:bg-red-100 text-red-500 font-semibold rounded-xl border border-red-200 text-xs transition-all">\n                <X className="w-3.5 h-3.5" /> Clear week\n              </button>
+              <button onClick={clearWeek} className="flex items-center gap-1.5 px-3 py-2.5 bg-red-50 hover:bg-red-100 text-red-500 font-semibold rounded-xl border border-red-200 text-xs transition-all">   <X className="w-3.5 h-3.5" /> Clear week </button>
             )}
           </div>
         </div>
