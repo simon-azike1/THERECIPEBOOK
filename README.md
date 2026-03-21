@@ -357,4 +357,4 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ---
 
-<p align="center">Built with ❤️ for the love of food and code</p>
+<p align="center">Built for love of food and code</p>
