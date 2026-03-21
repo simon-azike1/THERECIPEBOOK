@@ -14,9 +14,9 @@ import {
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
-const BASE = 'http://localhost:5000/api/v1';
+import { ADMIN_API } from '../../config/api';
 const HERO = 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=2070&q=80';
-
+const BASE = ADMIN_API;
 const getAdminConfig = () => ({
   headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` },
 });

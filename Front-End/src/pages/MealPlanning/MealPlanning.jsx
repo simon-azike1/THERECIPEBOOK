@@ -23,9 +23,11 @@ const MEAL_TYPES = [
   { id: 'snack',     label: 'Snack',     icon: Sunset, color: '#f43f5e', light: 'bg-rose-50 text-rose-700 border-rose-200'         },
 ];
 
+import { USER_API } from '../../config/api';
+
 const FOOD_BG   = 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=2053&q=80';
-const PLAN_API  = 'http://localhost:5000/api/v1/user/weekly-plan';
-const SHOP_API  = 'http://localhost:5000/api/v1/user/shopping-list';
+const PLAN_API  = `${USER_API}/weekly-plan`;
+const SHOP_API  = `${USER_API}/shopping-list`;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const toMonday = (d) => {
@@ -711,9 +713,7 @@ const MealPlanning = () => {
               <span className="hidden sm:inline">Shopping List</span>
             </motion.button>
             {plannedCount > 0 && (
-              <button onClick={clearWeek} className="flex items-center gap-1.5 px-3 py-2.5 bg-red-50 hover:bg-red-100 text-red-500 font-semibold rounded-xl border border-red-200 text-xs transition-all">
-                <Trash2 className="w-3.5 h-3.5" /> Clear week
-              </button>
+              <button onClick={clearWeek} className="flex items-center gap-1.5 px-3 py-2.5 bg-red-50 hover:bg-red-100 text-red-500 font-semibold rounded-xl border border-red-200 text-xs transition-all">\n                <X className="w-3.5 h-3.5" /> Clear week\n              </button>
             )}
           </div>
         </div>

@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const PLAN_API   = 'http://localhost:5000/api/v1/user/weekly-plan';
+import { USER_API } from '../../config/api.js';
 const MEAL_TYPES = ['breakfast', 'lunch', 'dinner', 'snack'];
 const MEAL_LABELS = {
   breakfast: { label: 'Breakfast', emoji: '🌅' },
