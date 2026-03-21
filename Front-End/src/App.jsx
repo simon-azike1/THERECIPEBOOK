@@ -4,8 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import "./index.css";
 
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 import RecipePage from "./pages/RecipePage/RecipePage";
 import About from "./pages/About/About";
 import RecipeVideo from "./components/VideoPage/RecipeVideo";
@@ -16,6 +16,8 @@ import PrivateRoute from './components/PrivateRoute';
 import EmailVerification from './pages/EmailVerification/EmailVerification';
 import MyRecipes from './pages/MyRecipes/MyRecipes';
 import RecipeView from './pages/RecipeView/RecipeView';
+import MealPlanning from "./pages/MealPlanning/MealPlanning"
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword"
 
 
 const App = () => {
@@ -55,11 +57,15 @@ const App = () => {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/recipes" element={<RecipePage />} />
         <Route path="/recipe/:id" element={<RecipeView />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+       
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
-          <Route path="/my-recipes" element={<MyRecipes />} />
-        </Route>
+        <Route path="/meal-planning" element={<MealPlanning />} />
+        <Route path="/my-recipes" element={<MyRecipes />} />
+
+</Route>
 
         {/* Admin Routes */}
         <Route path="/admin" element={<Outlet />}>
