@@ -20,16 +20,15 @@ app.use(morgan('tiny'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-// CORS - Frontend Vite ports + Vercel
+// CORS - Frontend Vite ports + Vercel + Render
 app.use(cors({
   origin: [
-    'http://localhost:5173',
-    'http://localhost:5174', 
-    'http://localhost:5175',
-    'https://therecipebook-liard.vercel.app'
+    /^https?:\/\/localhost(:\d+)?$/,
+    'https://therecipebook-liard.vercel.app',
+    'https://therecipebook-4uw5.onrender.com'
   ],
   credentials: true
-}))
+}));
 
 // Routes
 setupSwagger(app)
@@ -51,4 +50,3 @@ const server = app.listen(port, () => {
 })
 
 export default server
-

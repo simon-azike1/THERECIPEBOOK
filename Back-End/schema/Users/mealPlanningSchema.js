@@ -34,7 +34,7 @@ const mealPlanningSchema = new Schema({
   cuisineType: {
     type: String,
     required: [true, "Cuisine type is required"],
-    enum: ['Italian', 'Indian', 'Mexican', 'Chinese', 'Japanese', 'Thai', 'American', 'French', 'Mediterranean', 'Other']
+    enum: ['Italian', 'Indian', 'Mexican', 'Chinese', 'Japanese', 'Thai', 'American', 'French', 'Mediterranean','West African', 'Other']
   },
   preparationTime: {
     type: Number,
@@ -67,7 +67,7 @@ const mealPlanningSchema = new Schema({
   },
   dietaryRestrictions: [{
     type: String,
-    enum: ['Vegan', 'Vegetarian', 'Gluten-Free', 'Dairy-Free', 'Nut-Free', 'Halal', 'Kosher']
+    enum: ['Vegan', 'Vegetarian', 'Gluten-Free', 'Dairy-Free', 'Nut-Free', 'Halal', 'Kosher', 'Keto']
   }],
   rating: {
     type: Number,

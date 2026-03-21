@@ -1,5 +1,6 @@
 import express from 'express'
 import { registerAdminController, loginAdminController } from '../../controllers/Admin/authController.js'
+import { getAllRecipes, deleteRecipe, changeAdminPassword } from '../../controllers/Admin/adminRecipesController.js';
 import { 
   getAllUsersController, 
   getUserByIdController, 
@@ -21,5 +22,10 @@ adminRouter.get('/users/:userId', verify, getUserByIdController)
 adminRouter.delete('/users/:userId', verify, deleteUserController)
 adminRouter.put('/users/:userId', verify, updateUserController)
 adminRouter.patch('/users/:userId/approve', verify, approveUserController)
+
+
+adminRouter.get('/recipes',                    getAllRecipes);
+adminRouter.delete('/recipes/:recipeId',       deleteRecipe);
+adminRouter.patch('/settings/change-password', changeAdminPassword);
 
 export default adminRouter

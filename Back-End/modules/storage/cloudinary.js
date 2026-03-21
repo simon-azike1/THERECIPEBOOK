@@ -4,7 +4,6 @@ import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import fs from 'fs';
 
-
 // Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -15,9 +14,7 @@ cloudinary.config({
 // Helper function to determine resource type and format
 const getUploadConfig = (mimetype, originalname) => {
     const extension = originalname.split('.').pop().toLowerCase();
-    
-    // For images
-    if (mimetype.startsWith('image/')) {
+    if (mimetype.startsWith('image/') || /\.(jpg|jpeg|png|gif|webp|avif)$/i.test(originalname)) {
         return {
             resource_type: 'image',
             format: 'webp',
@@ -26,8 +23,6 @@ const getUploadConfig = (mimetype, originalname) => {
             unique_filename: true
         };
     }
-    
-    // For PDFs and other documents
     return {
         resource_type: 'raw',
         format: extension,
@@ -45,19 +40,16 @@ const storage = new CloudinaryStorage({
         const timestamp = Date.now();
         const uniqueId = Math.round(Math.random() * 1E9);
         const extension = file.originalname.split('.').pop().toLowerCase();
-        
-        // Remove extension from fieldname if it exists
         const fieldname = file.fieldname.replace(/\.[^/.]+$/, "");
-        
+
         return {
             folder: 'Nagidafoods',
             ...config,
-            allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'],
-            // Add extension only for documents
-            public_id: file.mimetype.startsWith('image/') 
+            allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'],
+            public_id: config.resource_type === 'image'
                 ? `${fieldname}-${timestamp}-${uniqueId}`
                 : `${fieldname}-${timestamp}-${uniqueId}.${extension}`,
-            transformation: file.mimetype.startsWith('image/') ? [
+            transformation: config.resource_type === 'image' ? [
                 { quality: 'auto:best' },
                 { fetch_format: 'auto' }
             ] : [],
@@ -69,10 +61,10 @@ const storage = new CloudinaryStorage({
 });
 
 // Configure Multer
-const uploadManager = multer({ 
+const uploadManager = multer({
     storage: storage,
     limits: {
-        fileSize: 10 * 1024 * 1024, 
+        fileSize: 10 * 1024 * 1024,
     },
     fileFilter: (req, file, cb) => {
         // Check for authorization
@@ -80,8 +72,13 @@ const uploadManager = multer({
             return cb(new Error('No authorization header'), false);
         }
 
-        // Validate file types
-        const allowedImageTypes = ['image/jpeg','image/jpg', 'image/png', 'image/gif'];
+        // Validate by mimetype AND extension as fallback
+        const allowedImageTypes = [
+            'image/jpeg', 'image/jpg', 'image/png',
+            'image/gif', 'image/webp', 'image/avif',
+            'application/octet-stream',
+            '',
+        ];
         const allowedDocTypes = [
             'application/pdf',
             'application/msword',
@@ -92,15 +89,20 @@ const uploadManager = multer({
             'application/vnd.openxmlformats-officedocument.presentationml.presentation'
         ];
 
-        if (allowedImageTypes.includes(file.mimetype) || allowedDocTypes.includes(file.mimetype)) {
+        const allowedImageExtensions = /\.(jpg|jpeg|png|gif|webp|avif)$/i;
+        const isImageByExt  = allowedImageExtensions.test(file.originalname);
+        const isImageByMime = allowedImageTypes.includes(file.mimetype);
+        const isDoc         = allowedDocTypes.includes(file.mimetype);
+
+        if (isImageByMime || isImageByExt || isDoc) {
             cb(null, true);
         } else {
-            cb(new Error('Invalid file type'), false);
+            cb(new Error(`Invalid file type. Got: ${file.mimetype}`), false);
         }
-    }
-});
+    }   // ← closes fileFilter
+});     // ← closes multer()
 
-// Add error handling middleware
+// Error handling middleware
 const handleUploadErrors = (err, req, res, next) => {
     if (err instanceof multer.MulterError) {
         return res.status(400).json({
@@ -125,21 +127,15 @@ const handleUploadErrors = (err, req, res, next) => {
 
 const uploadToCloudinary = async (file, folder) => {
     try {
-        // Determine resource type based on file mimetype
         const resourceType = file.mimetype.startsWith('image/') ? 'image' : 'raw';
-
         const result = await cloudinary.uploader.upload(file.path, {
             folder: folder,
-            resource_type: resourceType, 
-            access_mode: 'public', 
+            resource_type: resourceType,
+            access_mode: 'public',
         });
-
-        // Delete file from local storage after upload
         fs.unlinkSync(file.path);
-        
         return result;
     } catch (error) {
-        // Delete file from local storage if upload fails
         if (fs.existsSync(file.path)) {
             fs.unlinkSync(file.path);
         }
