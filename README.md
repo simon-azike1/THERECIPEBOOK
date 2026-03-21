@@ -2,7 +2,8 @@
 
 > A full-stack web application for meal planning, recipe management and smart grocery shopping.
 
-![TheRecipeBook](https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80)
+<img width="1857" height="893" alt="image" src="https://github.com/user-attachments/assets/3172918a-edb1-42bc-9bbb-188859d6822c" />
+
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://therecipebook-liard.vercel.app)
 [![Backend](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render)](https://therecipebook-4uw5.onrender.com)
