@@ -43,26 +43,26 @@ const VALUES = [
 const TEAM = [
   {
     initial: 'S',
-    image:   'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80',
-    name:    'Sarah Johnson',
-    role:    'Founder & CEO',
-    bio:     'Passionate about bringing people together through food and making home cooking more accessible for everyone.',
+    image:   '/src/assets/simon-azike.PNG',
+    name:    'Simon Azike',
+    role:    'Founder',
+    bio:     'Passionate about bringing families together through shared meals and making home cooking more accessible for everyone.',
     accent:  'from-[#3a5d8f] to-blue-600',
   },
   {
-    initial: 'M',
-    image:   'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
-    name:    'Michael Chen',
-    role:    'Head Chef',
-    bio:     'Professional chef with 15 years of culinary experience across three continents and a love for cultural fusion.',
+    initial: 'K',
+    image:   '/src/assets/keyinde-oluwafisayo.jpg',
+    name:    'Keyinde Oluwafisayo',
+    role:    'Marketer',
+    bio:     'Connecting food lovers with delicious recipes and building a community of home cooks worldwide.',
     accent:  'from-emerald-500 to-teal-500',
   },
   {
-    initial: 'E',
-    image:   'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80',
-    name:    'Emma Davis',
-    role:    'Food Curator',
-    bio:     'Food stylist and recipe developer focused on making complex dishes approachable for the everyday home cook.',
+    initial: 'Q',
+    image:   '/src/assets/quadri-kobiowu.png',
+    name:    'Quadri Kobiowu',
+    role:    'Software Developer',
+    bio:     'Building intuitive features that help home cooks plan meals, organize recipes and simplify their cooking journey.',
     accent:  'from-amber-400 to-orange-500',
   },
 ];
@@ -216,7 +216,7 @@ const About = () => (
               whileHover={{ y: -4 }}
               className="group bg-white/70 backdrop-blur-xl rounded-3xl border border-white/60 shadow-md hover:shadow-xl p-7 transition-all duration-300 flex flex-col">
               {/* Avatar image */}
-              <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-5 group-hover:shadow-lg transition-all">
+              <div className="relative w-full h-80 rounded-2xl overflow-hidden mb-5 group-hover:shadow-lg transition-all">
                 <img src={m.image} alt={m.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
