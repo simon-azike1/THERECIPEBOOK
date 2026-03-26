@@ -5,6 +5,11 @@ import { ArrowRight } from 'lucide-react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
+// Import team images
+import simonAzikeImg from '../../assets/simon-azike.PNG';
+import keyindeOluwafisayoImg from '../../assets/keyinde-oluwafisayo.jpg';
+import quadriKobiowuImg from '../../assets/quadri-kobiowu.png';
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const STATS = [
   { number: 10000, suffix: '+', label: 'Active Users'    },
@@ -43,7 +48,7 @@ const VALUES = [
 const TEAM = [
   {
     initial: 'S',
-    image:   '/src/assets/simon-azike.PNG',
+    image:   simonAzikeImg,
     name:    'Simon Azike',
     role:    'Founder',
     bio:     'Passionate about bringing families together through shared meals and making home cooking more accessible for everyone.',
@@ -51,7 +56,7 @@ const TEAM = [
   },
   {
     initial: 'K',
-    image:   '/src/assets/keyinde-oluwafisayo.jpg',
+    image:   keyindeOluwafisayoImg,
     name:    'Keyinde Oluwafisayo',
     role:    'Marketer',
     bio:     'Connecting food lovers with delicious recipes and building a community of home cooks worldwide.',
@@ -59,7 +64,7 @@ const TEAM = [
   },
   {
     initial: 'Q',
-    image:   '/src/assets/quadri-kobiowu.png',
+    image:   quadriKobiowuImg,
     name:    'Quadri Kobiowu',
     role:    'Software Developer',
     bio:     'Building intuitive features that help home cooks plan meals, organize recipes and simplify their cooking journey.',
