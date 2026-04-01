@@ -4,14 +4,15 @@ import { ArrowRight, ChevronDown } from 'lucide-react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import { toast } from 'react-hot-toast';
+import { USER_API } from '../../config/api.js';
 
 const FOOD_BG = 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=2070&q=80';
 
 const CONTACT_DETAILS = [
-  { label: 'Email',    value: 'support@therecipebook.com', href: 'mailto:support@therecipebook.com' },
-  { label: 'Phone',    value: '+1 (234) 567-890',          href: 'tel:+1234567890'                  },
-  { label: 'Hours',    value: 'Mon – Fri, 9am – 6pm',      href: null                               },
-  { label: 'Location', value: 'Cardiff, Wales',             href: null                               },
+  { label: 'Email',    value: 'azikeshinye@gmail.com', href: 'mailto:azikeshinye@gmail.com' },
+  { label: 'Phone',    value: '+212 751-780853',      href: 'tel:+212751780853'            },
+  { label: 'Hours',    value: 'Mon – Fri, 9am – 6pm', href: null                           },
+  { label: 'Location', value: 'Rabat Sale Bab Cheffa, Morocco', href: null                    },
 ];
 
 const FAQS = [
@@ -61,12 +62,32 @@ const ContactPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    await new Promise(r => setTimeout(r, 1200));
-    setSubmitting(false);
-    setSubmitted(true);
-    toast.success('Message sent! We will reply shortly.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setTimeout(() => setSubmitted(false), 6000);
+    
+    try {
+      const response = await fetch(`${USER_API}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setSubmitted(true);
+        toast.success('Message sent! We will reply shortly.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setSubmitted(false), 6000);
+      } else {
+        toast.error(data.message || 'Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error('Failed to send message. Please try again later.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -217,11 +238,11 @@ const ContactPage = () => {
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
               className="relative h-40 rounded-3xl overflow-hidden border border-white/60 shadow-lg">
               <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80"
-                alt="Cardiff, Wales" className="w-full h-full object-cover" />
+                alt="Rabat Sale Bab Cheffa, Morocco" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-4">
-                <p className="text-white font-black text-sm">Cardiff, Wales</p>
-                <p className="text-white/60 text-xs">United Kingdom</p>
+                <p className="text-white font-black text-sm">Rabat Sale Bab Cheffa</p>
+                <p className="text-white/60 text-xs">Morocco</p>
               </div>
             </motion.div>
           </div>

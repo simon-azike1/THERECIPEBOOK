@@ -6,9 +6,9 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
 // Import team images
-import simonAzikeImg from '../../assets/simon-azike.PNG';
-import keyindeOluwafisayoImg from '../../assets/keyinde-oluwafisayo.jpg';
-import quadriKobiowuImg from '../../assets/quadri-kobiowu.png';
+// import simonAzikeImg from '../../assets/simon-azike.PNG';
+// import keyindeOluwafisayoImg from '../../assets/keyinde-oluwafisayo.jpg';
+// import quadriKobiowuImg from '../../assets/quadri-kobiowu.png';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const STATS = [
@@ -45,32 +45,32 @@ const VALUES = [
   },
 ];
 
-const TEAM = [
-  {
-    initial: 'S',
-    image:   simonAzikeImg,
-    name:    'Simon Azike',
-    role:    'Founder',
-    bio:     'Passionate about bringing families together through shared meals and making home cooking more accessible for everyone.',
-    accent:  'from-[#3a5d8f] to-blue-600',
-  },
-  {
-    initial: 'K',
-    image:   keyindeOluwafisayoImg,
-    name:    'Keyinde Oluwafisayo',
-    role:    'Marketer',
-    bio:     'Connecting food lovers with delicious recipes and building a community of home cooks worldwide.',
-    accent:  'from-emerald-500 to-teal-500',
-  },
-  {
-    initial: 'Q',
-    image:   quadriKobiowuImg,
-    name:    'Quadri Kobiowu',
-    role:    'Software Developer',
-    bio:     'Building intuitive features that help home cooks plan meals, organize recipes and simplify their cooking journey.',
-    accent:  'from-amber-400 to-orange-500',
-  },
-];
+// const TEAM = [
+//   {
+//     initial: 'S',
+//     image:   simonAzikeImg,
+//     name:    'Simon Azike',
+//     role:    'Founder',
+//     bio:     'Passionate about bringing families together through shared meals and making home cooking more accessible for everyone.',
+//     accent:  'from-[#3a5d8f] to-blue-600',
+//   },
+//   {
+//     initial: 'K',
+//     image:   keyindeOluwafisayoImg,
+//     name:    'Keyinde Oluwafisayo',
+//     role:    'Marketer',
+//     bio:     'Connecting food lovers with delicious recipes and building a community of home cooks worldwide.',
+//     accent:  'from-emerald-500 to-teal-500',
+//   },
+//   {
+//     initial: 'Q',
+//     image:   quadriKobiowuImg,
+//     name:    'Quadri Kobiowu',
+//     role:    'Software Developer',
+//     bio:     'Building intuitive features that help home cooks plan meals, organize recipes and simplify their cooking journey.',
+//     accent:  'from-amber-400 to-orange-500',
+//   },
+// ];
 
 const FOOD_BG = 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=2070&q=80';
 
@@ -203,6 +203,7 @@ const About = () => (
       </section>
 
       {/* ── Team ── */}
+      {/* Team section commented out - can be restored later
       <section>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.5 }}
@@ -220,7 +221,6 @@ const About = () => (
               viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.4 }}
               whileHover={{ y: -4 }}
               className="group bg-white/70 backdrop-blur-xl rounded-3xl border border-white/60 shadow-md hover:shadow-xl p-7 transition-all duration-300 flex flex-col">
-              {/* Avatar image */}
               <div className="relative w-full h-80 rounded-2xl overflow-hidden mb-5 group-hover:shadow-lg transition-all">
                 <img src={m.image} alt={m.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -236,6 +236,7 @@ const About = () => (
           ))}
         </div>
       </section>
+      */}
 
       {/* ── Contact CTA ── */}
       <section>
@@ -263,9 +264,9 @@ const About = () => (
             <div className="flex flex-col gap-4">
               {/* Contact details — text only, no icons */}
               {[
-                { label: 'Email',    value: 'support@therecipebook.com' },
-                { label: 'Phone',    value: '+1 (234) 567-890'           },
-                { label: 'Location', value: 'Cardiff, Wales'             },
+                { label: 'Email',    value: 'azikeshinye@gmail.com' },
+                { label: 'Phone',    value: '+212 751-780853'      },
+                { label: 'Location', value: 'Rabat Sale Bab Cheffa, Morocco' },
               ].map((c, i) => (
                 <div key={i} className="flex items-center gap-4 bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-5 py-3.5">
                   <span className="text-white/40 text-xs font-black uppercase tracking-widest w-16 flex-shrink-0">{c.label}</span>
