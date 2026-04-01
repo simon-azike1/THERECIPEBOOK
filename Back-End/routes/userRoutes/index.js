@@ -17,6 +17,7 @@ import {
   clearDay,
   deleteWeeklyPlan,
 } from '../../controllers/Users/weeklyPlanController.js'
+import { submitContactForm } from '../../controllers/Users/contactController.js'
 
 const userRouter = express.Router()
 
@@ -67,5 +68,8 @@ userRouter.delete('/shopping-list',        verify, clearShoppingList);
 userRouter.get('/feedback/:recipeId',    getRecipeFeedback);
 userRouter.post('/feedback/:recipeId',   verify, submitFeedback);
 userRouter.delete('/feedback/:recipeId', verify, deleteFeedback);
+
+// Contact form route
+userRouter.post('/contact', submitContactForm);
 
 export default userRouter
