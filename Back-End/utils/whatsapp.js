@@ -41,7 +41,7 @@ export const notifyAdminNewUser = async (userName, userEmail) => {
     return false;
   }
 
-  const frontendUrl = process.env.LIVE_FRONTEND_URL || process.env.FRONTEND_URL || 'https://therecipebook.vercel.app';
+  const frontendUrl = process.env.LIVE_FRONTEND_URL || 'https://therecipebook-liard.vercel.app';
   const dashboardLink = `${frontendUrl}/admin/dashboard`;
   
   const message = `🔔 *New User Registration*\n\nName: ${userName}\nEmail: ${userEmail}\n\n👇 Approve here:\n${dashboardLink}`;
