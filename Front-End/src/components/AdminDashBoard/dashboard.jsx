@@ -11,6 +11,7 @@ import {
   CheckCircle, XCircle, Clock, UserCheck, Shield, AlertCircle, X,
   TrendingUp, ChefHat, BarChart3, Menu, Flame, Star, Settings,
   ArrowUpRight, Lock, EyeOff, Save, Loader2, Sparkles, ArrowRight,
+  MessageCircle, PieChart
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
@@ -95,8 +96,11 @@ const Dashboard = () => {
   const [selectedUser,  setSelectedUser]  = useState(null);
   const [editFormData,  setEditFormData]  = useState({ name: '', email: '' });
 
-  const [recipes,        setRecipes]        = useState([]);
-  const [recipesLoading, setRecipesLoading] = useState(false);
+const [recipes,        setRecipes]        = useState([]);
+const [recipesLoading, setRecipesLoading] = useState(false);
+
+const [surveyAnalytics, setSurveyAnalytics] = useState(null);
+const [surveyLoading, setSurveyLoading] = useState(false);
 
   const [pwForm,   setPwForm]   = useState({ current: '', newPw: '', confirm: '' });
   const [pwSaving, setPwSaving] = useState(false);
@@ -120,6 +124,24 @@ const Dashboard = () => {
       finally { setRecipesLoading(false); }
     };
     load();
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (activeTab !== 'analytics') return;
+    const loadSurveyAnalytics = async () => {
+      setSurveyLoading(true);
+      try {
+        console.log('Fetching survey analytics...');
+        const { data } = await axios.get(`${BASE}/survey/analytics`, getAdminConfig());
+        console.log('Survey analytics response:', data);
+        setSurveyAnalytics(data.result?.data || null);
+      } catch (err) { 
+        console.error('Survey analytics error:', err.response || err);
+        toast.error('Failed to load survey analytics'); 
+      }
+      finally { setSurveyLoading(false); }
+    };
+    loadSurveyAnalytics();
   }, [activeTab]);
 
   const handleLogout  = () => { dispatch(logout()); nav('/admin/login'); };
@@ -587,6 +609,115 @@ const Dashboard = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="bg-white/60 backdrop-blur-xl rounded-3xl border border-white/50 shadow-lg p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#3a5d8f] to-emerald-500 flex items-center justify-center">
+                    <MessageCircle className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">User Feedback Survey</h3>
+                    <p className="text-xs text-gray-400 mt-0.5">Understanding meal planning challenges</p>
+                  </div>
+                </div>
+                
+                {surveyLoading ? (
+                  <div className="flex items-center justify-center gap-3 py-8 text-gray-400">
+                    <Loader2 className="w-6 h-6 animate-spin text-[#3a5d8f]" />
+                    <span className="font-medium">Loading survey data...</span>
+                  </div>
+                ) : surveyAnalytics ? (
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 border border-white/40">
+                        <p className="text-2xl font-black text-gray-900">{surveyAnalytics.totalResponses || 0}</p>
+                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Total Responses</p>
+                      </div>
+                      <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 border border-white/40">
+                        <p className="text-2xl font-black text-gray-900">{surveyAnalytics.weeklyResponses || 0}</p>
+                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">This Week</p>
+                      </div>
+                      <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 border border-white/40 col-span-2 sm:col-span-1">
+                        <p className="text-2xl font-black text-gray-900">{Object.keys(surveyAnalytics.optionCounts || {}).length}</p>
+                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Response Types</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <PieChart className="w-4 h-4 text-[#3a5d8f]" />
+                        Challenge Distribution
+                      </h4>
+                      <div className="space-y-3">
+                        {Object.entries(surveyAnalytics.optionCounts || {}).length > 0 ? (
+                          Object.entries(surveyAnalytics.optionCounts).map(([option, count], i) => {
+                            const total = surveyAnalytics.totalResponses || 1;
+                            const percentage = Math.round((count / total) * 100);
+                            const gradients = [
+                              'from-[#3a5d8f] to-blue-500',
+                              'from-emerald-500 to-teal-400',
+                              'from-amber-400 to-orange-400',
+                              'from-violet-500 to-purple-400',
+                              'from-rose-500 to-pink-400',
+                              'from-cyan-500 to-sky-400',
+                            ];
+                            return (
+                              <div key={option}>
+                                <div className="flex justify-between text-sm font-semibold text-gray-600 mb-2">
+                                  <span>{option}</span>
+                                  <span className="text-gray-400 font-normal">{count} ({percentage}%)</span>
+                                </div>
+                                <div className="w-full h-2.5 bg-white/40 rounded-full overflow-hidden border border-white/30">
+                                  <motion.div 
+                                    className={`h-full bg-gradient-to-r ${gradients[i % gradients.length]} rounded-full`}
+                                    initial={{ width: 0 }} 
+                                    animate={{ width: `${percentage}%` }}
+                                    transition={{ duration: 0.8, ease: 'easeOut' }} 
+                                  />
+                                </div>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <p className="text-gray-400 text-sm text-center py-4">No survey responses yet</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {surveyAnalytics.recentResponses && surveyAnalytics.recentResponses.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-gray-800 mb-4">Recent Responses</h4>
+                        <div className="space-y-2 max-h-48 overflow-y-auto">
+                          {surveyAnalytics.recentResponses.slice(0, 5).map((response, i) => (
+                            <div key={i} className="flex items-start gap-3 p-3 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/40">
+                              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#3a5d8f] to-emerald-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                                {response.user?.firstName?.charAt(0) || response.user?.email?.charAt(0) || '?'}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-gray-900 truncate">
+                                  {response.user?.firstName ? `${response.user.firstName} ${response.user.lastName || ''}` : response.user?.email || 'Anonymous'}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                  <span className="font-medium text-[#3a5d8f]">{response.option}</span>
+                                  {response.feedback && ` - ${response.feedback.substring(0, 50)}${response.feedback.length > 50 ? '...' : ''}`}
+                                </p>
+                                <p className="text-[10px] text-gray-400 mt-1">
+                                  {new Date(response.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-gray-400">
+                    <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                    <p>No survey data available</p>
+                  </div>
+                )}
               </div>
 
               <div className="bg-white/60 backdrop-blur-xl rounded-3xl border border-white/50 shadow-lg p-6">

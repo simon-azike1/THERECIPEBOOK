@@ -9,6 +9,7 @@ import {
   approveUserController
 } from '../../controllers/Admin/userManagementController.js'
 import { verify } from '../../middlewares/auth-middleware.js'
+import { getAdminSurveyAnalytics } from '../../controllers/Users/surveyController.js';
 
 const adminRouter = express.Router()
 
@@ -27,5 +28,8 @@ adminRouter.patch('/users/:userId/approve', verify, approveUserController)
 adminRouter.get('/recipes',                    getAllRecipes);
 adminRouter.delete('/recipes/:recipeId',       deleteRecipe);
 adminRouter.patch('/settings/change-password', changeAdminPassword);
+
+// Survey analytics (admin only)
+adminRouter.get('/survey/analytics', verify, getAdminSurveyAnalytics);
 
 export default adminRouter

@@ -18,6 +18,7 @@ import {
   deleteWeeklyPlan,
 } from '../../controllers/Users/weeklyPlanController.js'
 import { submitContactForm } from '../../controllers/Users/contactController.js'
+import { submitSurvey, getSurveyAnalytics } from '../../controllers/Users/surveyController.js'
 
 const userRouter = express.Router()
 
@@ -71,5 +72,9 @@ userRouter.delete('/feedback/:recipeId', verify, deleteFeedback);
 
 // Contact form route
 userRouter.post('/contact', submitContactForm);
+
+// Survey routes
+userRouter.post('/survey', verify, submitSurvey);
+userRouter.get('/survey/analytics', verify, getSurveyAnalytics);
 
 export default userRouter

@@ -62,8 +62,10 @@ const Hero = () => {
             {/* Badge */}
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
               className="inline-flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm border border-[#3a5d8f]/15 rounded-full shadow-sm mb-6">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-xs font-bold text-[#3a5d8f] uppercase tracking-widest">Your Culinary Community</span>
+              {/* <Sparkles className="w-3.5 h-3.5 text-amber-400" /> */}
+              <span className="text-xs font-bold text-[#3a5d8f] uppercase tracking-widest">
+                Your Culinary Community
+                </span>
             </motion.div>
 
             {/* Headline */}

@@ -602,11 +602,12 @@ const MealPlanning = () => {
   });
 
   if (recipesLoading) return (
-    <div className="min-h-screen pt-20 flex items-center justify-center bg-stone-50">
+    <div className="min-h-screen bg-stone-50">
       <Header />
-      <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-        className="w-14 h-14 border-4 border-[#3a5d8f]/20 border-t-[#3a5d8f] rounded-2xl" />
-      <Footer />
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
+        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          className="w-14 h-14 border-4 border-[#3a5d8f]/20 border-t-[#3a5d8f] rounded-2xl" />
+      </div>
     </div>
   );
 

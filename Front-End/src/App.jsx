@@ -1,5 +1,5 @@
-import React from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 import "./index.css";
 
@@ -19,10 +19,22 @@ import RecipeView from './pages/RecipeView/RecipeView';
 import MealPlanning from "./pages/MealPlanning/MealPlanning"
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword"
 import ScrollToTop from "./components/ScrollToTop";
+import SurveyPopup from "./components/SurveyPopup/SurveyPopup";
+import useSurveyTrigger from "./hooks/useSurveyTrigger";
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService/TermsOfService";
+import AdminRegister from "./components/AdminScreen/AdminRegister";
 
 
 
 const App = () => {
+  useSurveyTrigger();
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+  
   return (
     <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300">
       <Toaster
@@ -46,6 +58,7 @@ const App = () => {
         }}
       />
 
+      <SurveyPopup />
 
       <Routes>
         {/* Public Routes */}
@@ -57,9 +70,12 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/recipe-video" element={<RecipeVideo />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/register" element={<AdminRegister />} />
         <Route path="/recipes" element={<RecipePage />} />
         <Route path="/recipe/:id" element={<RecipeView />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
        
 
         {/* Protected Routes */}

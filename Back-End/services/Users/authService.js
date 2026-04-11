@@ -1,6 +1,7 @@
 import { BAD_REQUEST, SUCCESS, VALIDATION_ERROR, NOT_FOUND, UNAUTHORIZED } from '../../constants/statusCode.js'
 import { User } from '../../schema/Users/authSchema.js'
 import { messageHandler, passwordValidator, hashPassword, verifyPassword, generateToken, sendEmail, verifyToken } from '../../utils/index.js'
+import { notifyAdminNewUser } from '../../utils/whatsapp.js'
 
 
 export const registerService = async ({data}, callback) => {
@@ -40,6 +41,9 @@ export const registerService = async ({data}, callback) => {
     // Save user
     const savedUser = await newUser.save();
 
+    // Send WhatsApp notification to admin (don't wait - fire and forget)
+    notifyAdminNewUser(name, email).catch(err => console.log('WhatsApp notification failed:', err.message));
+
     // Email sending completely disabled for faster registration
     console.log('User registered:', newUser.email);
 
@@ -66,6 +70,11 @@ export const loginService = async ({data}, callback) => {
 
     if (!isPasswordValid) {
       return callback(messageHandler("Invalid password", false, BAD_REQUEST));
+    }
+
+    // Check if user is approved
+    if (!user.isApproved) {
+      return callback(messageHandler("Your account is pending approval. Please wait for admin approval.", false, BAD_REQUEST));
     }
 
     // Email verification check disabled - users can login directly

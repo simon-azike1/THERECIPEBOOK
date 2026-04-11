@@ -77,6 +77,7 @@ export const approveUserService = async ({userId}) => {
 
     user.isApproved = true
     const updatedUser = await user.save()
+
     return messageHandler("User approved successfully", true, SUCCESS, updatedUser)
   } catch (error) {
     return messageHandler("Failed to approve user", false, BAD_REQUEST, {})

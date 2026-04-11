@@ -2,6 +2,21 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ADMIN_API } from '../../config/api';
 
+// Admin Register
+export const registerAdmin = createAsyncThunk(
+  'admin/register',
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axios.post(`${ADMIN_API}/register`, userData);
+      if (response.data) {
+        return response.data.result;
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 // Admin Login
 export const loginAdmin = createAsyncThunk(
   'admin/login',
@@ -153,6 +168,19 @@ const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(registerAdmin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(registerAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload?.message || 'Registration successful';
+      })
+      .addCase(registerAdmin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload?.message || 'Registration failed';
+      })
       .addCase(loginAdmin.pending, (state) => {
         state.isLoading = true;
       })
