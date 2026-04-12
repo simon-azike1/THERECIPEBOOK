@@ -172,7 +172,7 @@ const CreateRecipeModal = ({ isOpen, onClose, initialData = null, isEditing = fa
             animate={{ opacity: 1, scale: 1,    y: 0  }}
             exit={{    opacity: 0, scale: 0.96, y: 20 }}
             transition={{ type: 'spring', bounce: 0.18, duration: 0.4 }}
-            className="fixed inset-x-3 top-[3%] bottom-[3%] md:inset-x-auto md:w-[640px] md:top-[5%] md:bottom-[5%] md:left-1/2 md:-translate-x-1/2 bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            className="fixed inset-x-3 top-[3%] bottom-[3%] md:inset-x-auto md:w-[700px] md:top-[5%] md:bottom-[5%] md:left-1/2 md:-translate-x-1/2 bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}

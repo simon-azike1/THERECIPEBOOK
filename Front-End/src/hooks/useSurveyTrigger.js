@@ -1,38 +1,38 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { openSurvey, markSurveyed } from '../features/survey/surveySlice';
 
-const INTERACTION_THRESHOLD = 30000; // 30 seconds
-const MIN_DAYS_BETWEEN_SURVEYS = 5;
-const MAX_DAYS_BETWEEN_SURVEYS = 7;
+const INTERACTION_THRESHOLD = 20000;
+const MIN_DAYS_BETWEEN_SURVEYS = 1;
+const MAX_DAYS_BETWEEN_SURVEYS = 3;
 
 const useSurveyTrigger = () => {
   const dispatch = useDispatch();
-  const { hasSurveyed, surveySubmittedAt, isOpen } = useSelector((state) => state.survey);
+  const { isOpen } = useSelector((state) => state.survey);
+  const { user } = useSelector((state) => state.auth);
   const interactionTimeRef = useRef(0);
   const isTrackingRef = useRef(false);
   const keyActionsCountRef = useRef(0);
 
-  const shouldShowSurvey = () => {
-    if (hasSurveyed || isOpen) return false;
+  const shouldShowSurvey = useCallback(() => {
+    if (!user || isOpen) return false;
 
-    if (!surveySubmittedAt) return true;
+    const hasSurveyed = localStorage.getItem('surveySubmittedAt');
+    if (!hasSurveyed) return true;
 
-    const lastSurveyDate = new Date(surveySubmittedAt);
+    const lastSurveyDate = new Date(hasSurveyed);
     const now = new Date();
     const daysSinceLastSurvey = Math.floor((now - lastSurveyDate) / (1000 * 60 * 60 * 24));
 
-    const minDays = MIN_DAYS_BETWEEN_SURVEYS;
-    const maxDays = MAX_DAYS_BETWEEN_SURVEYS;
+    return daysSinceLastSurvey >= MIN_DAYS_BETWEEN_SURVEYS && daysSinceLastSurvey <= MAX_DAYS_BETWEEN_SURVEYS;
+  }, [user, isOpen]);
 
-    return daysSinceLastSurvey >= minDays + Math.random() * (maxDays - minDays);
-  };
-
-  const triggerSurvey = () => {
+  const triggerSurvey = useCallback(() => {
+    console.log('triggerSurvey called, shouldShowSurvey:', shouldShowSurvey());
     if (shouldShowSurvey()) {
       dispatch(openSurvey());
     }
-  };
+  }, [shouldShowSurvey, dispatch]);
 
   useEffect(() => {
     const checkInteraction = () => {
@@ -47,7 +47,7 @@ const useSurveyTrigger = () => {
 
     const interval = setInterval(checkInteraction, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [triggerSurvey]);
 
   useEffect(() => {
     const handleKeyAction = () => {
@@ -67,10 +67,12 @@ const useSurveyTrigger = () => {
 
     const handleLoad = () => {
       setTimeout(() => {
+        console.log('Survey trigger: Checking if should show survey...');
         if (shouldShowSurvey()) {
+          console.log('Survey trigger: Opening survey on page load');
           triggerSurvey();
         }
-      }, 60000);
+      }, 15000);
     };
 
     window.addEventListener('keypress', handleKeyAction);
@@ -82,7 +84,7 @@ const useSurveyTrigger = () => {
       window.removeEventListener('click', handleClick);
       window.removeEventListener('load', handleLoad);
     };
-  }, []);
+  }, [shouldShowSurvey, triggerSurvey]);
 
   return { triggerSurvey };
 };

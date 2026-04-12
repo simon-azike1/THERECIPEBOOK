@@ -96,7 +96,7 @@ const FeaturedRecipes = ({ title, description, recipes = [] }) => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
+          {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.5 }}
           className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
@@ -115,37 +115,24 @@ const FeaturedRecipes = ({ title, description, recipes = [] }) => {
             )}
           </div>
 
-          {/* View all link */}
-          <motion.div whileHover={{ x: 3 }} className="flex-shrink-0">
+          {/* Browse button */}
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-shrink-0 self-start md:self-auto mt-4 md:mt-0">
             <Link to="/recipes"
-              className="flex items-center gap-2 text-sm font-bold text-[#3a5d8f] hover:text-emerald-600 transition-colors group">
-              View all recipes
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#3a5d8f] hover:bg-[#2c4a75] text-white font-bold rounded-xl text-sm shadow-md transition-all">
+              Browse Recipes
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
         </motion.div>
 
         {/* Cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {recipes.slice(0, 6).map((recipe, i) => (
             <Link key={recipe._id} to={`/recipe/${recipe._id}`}>
               <RecipeCard recipe={recipe} index={i} />
             </Link>
           ))}
         </div>
-
-        {/* Bottom CTA */}
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ delay: 0.3 }}
-          className="text-center">
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="inline-block">
-            <Link to="/recipes"
-              className="flex items-center gap-2 px-8 py-3.5 bg-white/70 backdrop-blur-sm border-2 border-[#3a5d8f]/20 hover:border-[#3a5d8f]/60 hover:bg-white text-[#3a5d8f] font-bold rounded-2xl shadow-sm text-sm transition-all">
-              Browse All Recipes
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );

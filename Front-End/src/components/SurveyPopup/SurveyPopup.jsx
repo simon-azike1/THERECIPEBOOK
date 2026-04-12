@@ -17,6 +17,7 @@ const SurveyPopup = () => {
   const dispatch = useDispatch();
   const { isOpen, isLoading } = useSelector((state) => state.survey);
   const [selectedOption, setSelectedOption] = useState('');
+  const [showFeedback, setShowFeedback] = useState(false);
   const [feedback, setFeedback] = useState('');
 
   const handleSubmit = async (e) => {
@@ -47,44 +48,42 @@ const SurveyPopup = () => {
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.9, y: 20 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm mx-auto"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="bg-[#2b4c7e] dark:bg-[#1a365d] p-6 relative">
+          <div className="bg-gradient-to-r from-[#2b4c7e] to-[#3a5d8f] p-4 rounded-t-2xl relative">
             <button
               onClick={handleSkip}
-              className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+              className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
-            <div className="flex items-center gap-3">
-              <div className="bg-white/20 rounded-full p-2">
-                <MessageCircle className="text-white" size={24} />
+            <div className="flex items-center gap-2">
+              <div className="bg-white/20 rounded-full p-1.5">
+                <MessageCircle className="text-white" size={18} />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white font-['Poppins']">
-                  Let's make cooking easier for you
+                <h2 className="text-base font-semibold text-white">
+                  Let's make cooking easier
                 </h2>
-                <p className="text-white/80 text-sm mt-1">
-                  We'd love your feedback
-                </p>
+                <p className="text-white/70 text-xs">Your feedback matters</p>
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6">
-            <p className="text-gray-700 dark:text-gray-200 font-medium mb-4 font-['Poppins']">
-              What's the hardest part about planning or managing your meals?
+          <form onSubmit={handleSubmit} className="p-4">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+              What's hardest about planning meals?
             </p>
 
-            <div className="space-y-3 mb-6">
+            <div className="space-y-2 mb-4">
               {SURVEY_OPTIONS.map((option) => (
                 <label
                   key={option}
-                  className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+                  className={`flex items-center p-2 rounded-lg border cursor-pointer transition-all ${
                     selectedOption === option
-                      ? 'border-[#2b4c7e] bg-[#2b4c7e]/10 dark:border-[#3a5d8f] dark:bg-[#3a5d8f]/20'
-                      : 'border-gray-200 dark:border-gray-600 hover:border-[#2b4c7e]/50 dark:hover:border-[#3a5d8f]/50'
+                      ? 'border-[#2b4c7e] bg-[#2b4c7e]/10'
+                      : 'border-gray-200 dark:border-gray-600 hover:border-[#2b4c7e]/50'
                   }`}
                 >
                   <input
@@ -96,50 +95,55 @@ const SurveyPopup = () => {
                     className="sr-only"
                   />
                   <div
-                    className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center transition-colors ${
+                    className={`w-4 h-4 rounded-full border-2 mr-2 flex items-center justify-center ${
                       selectedOption === option
-                        ? 'border-[#2b4c7e] dark:border-[#3a5d8f] bg-[#2b4c7e] dark:bg-[#3a5d8f]'
-                        : 'border-gray-300 dark:border-gray-500'
+                        ? 'border-[#2b4c7e] bg-[#2b4c7e]'
+                        : 'border-gray-300'
                     }`}
                   >
                     {selectedOption === option && (
-                      <div className="w-2 h-2 rounded-full bg-white" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
                     )}
                   </div>
-                  <span className="text-gray-700 dark:text-gray-200 font-['Inter']">{option}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-200">{option}</span>
                 </label>
               ))}
             </div>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2 font-['Poppins']">
-                Share your experience with us (optional)
-              </label>
-              <textarea
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-                placeholder="Tell us more about your meal planning challenges..."
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-['Inter'] resize-none focus:outline-none focus:ring-2 focus:ring-[#2b4c7e] dark:focus:ring-[#3a5d8f] focus:border-transparent transition-all"
-                rows={3}
-                maxLength={500}
-              />
-              <p className="text-xs text-gray-400 mt-1 text-right">
-                {feedback.length}/500
-              </p>
-            </div>
+            {showFeedback && (
+              <div className="mb-4">
+                <textarea
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  placeholder="Tell us more (optional)..."
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-[#2b4c7e]"
+                  rows={2}
+                />
+              </div>
+            )}
 
-            <div className="flex gap-3">
+            {!showFeedback && selectedOption && (
+              <button
+                type="button"
+                onClick={() => setShowFeedback(true)}
+                className="text-xs text-[#3a5d8f] hover:underline mb-3"
+              >
+                + Add more detail (optional)
+              </button>
+            )}
+
+            <div className="flex gap-2">
               <button
                 type="button"
                 onClick={handleSkip}
-                className="flex-1 px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 font-semibold font-['Poppins'] hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Skip
               </button>
               <button
                 type="submit"
                 disabled={!selectedOption || isLoading}
-                className="flex-1 px-4 py-3 rounded-lg bg-[#2b4c7e] dark:bg-[#3a5d8f] text-white font-semibold font-['Poppins'] hover:bg-[#1a365d] dark:hover:bg-[#2b4c7e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-3 py-2 text-sm rounded-lg bg-[#2b4c7e] dark:bg-[#3a5d8f] text-white font-medium hover:bg-[#1a365d] transition-colors disabled:opacity-50"
               >
                 {isLoading ? 'Sending...' : 'Submit'}
               </button>
