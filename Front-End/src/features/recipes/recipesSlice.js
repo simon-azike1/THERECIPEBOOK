@@ -64,4 +64,7 @@ const recipesSlice = createSlice({
 });
 
 export const { reset } = recipesSlice.actions;
+
+// Selector to get total recipe count
+export const selectRecipeCount = (state) => state.recipes.recipes.length;
 export default recipesSlice.reducer;

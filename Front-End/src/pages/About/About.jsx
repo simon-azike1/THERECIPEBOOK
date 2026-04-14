@@ -1,22 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { ArrowRight } from 'lucide-react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { getAllRecipes, selectRecipeCount } from '../../features/recipes/recipesSlice';
 
 // Import team images
 // import simonAzikeImg from '../../assets/simon-azike.PNG';
 // import keyindeOluwafisayoImg from '../../assets/keyinde-oluwafisayo.jpg';
 // import quadriKobiowuImg from '../../assets/quadri-kobiowu.png';
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const STATS = [
-  { number: 10000, suffix: '+', label: 'Active Users'    },
-  { number: 50000, suffix: '+', label: 'Recipes Shared'  },
-  { number: 100,   suffix: '+', label: 'Countries'       },
-  { number: 4.8,   suffix: '',  label: 'Average Rating'  },
-];
 
 const VALUES = [
   {
@@ -112,7 +106,22 @@ const AnimatedStat = ({ stat, delay }) => {
 };
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
-const About = () => (
+const About = () => {
+  const dispatch = useDispatch();
+  const recipeCount = useSelector(selectRecipeCount);
+
+  const STATS = [
+    { number: 3,  suffix: '+', label: 'Active Users'    },
+    { number: recipeCount || 0, suffix: '', label: 'Recipes Shared'  },
+    { number: 3,  suffix: '+', label: 'Countries'       },
+    { number: 4.5, suffix: '',  label: 'Average Rating'  },
+  ];
+
+  useEffect(() => {
+    dispatch(getAllRecipes());
+  }, [dispatch]);
+
+  return (
   <div className="min-h-screen bg-gradient-to-br from-stone-50 via-blue-50/40 to-emerald-50/50 pt-20">
     {/* Dot pattern */}
     <div className="fixed inset-0 opacity-[0.025] pointer-events-none"
@@ -288,7 +297,8 @@ const About = () => (
     </main>
 
     <Footer />
-  </div>
-);
+    </div>
+  );
+};
 
 export default About;

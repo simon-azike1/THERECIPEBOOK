@@ -165,9 +165,9 @@ const Login = () => {
             {/* Stats */}
             <div className="space-y-3">
               {[
-                { value: '50,000+', label: 'Recipes shared'  },
-                { value: '15,000+', label: 'Active cooks'    },
-                { value: '4.9 / 5', label: 'Average rating'  },
+                { value: '200+', label: 'Recipes shared'  },
+                { value: '100+', label: 'Active cooks'    },
+                { value: '4.5 / 5', label: 'Average rating'  },
               ].map((s, i) => (
                 <div key={i} className="flex items-center justify-between bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2.5 border border-white/15">
                   <span className="text-white/55 text-xs font-semibold">{s.label}</span>

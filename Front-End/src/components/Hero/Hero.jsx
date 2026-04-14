@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Star, Users, BookOpen } from 'lucide-react';
-
-const STATS = [
-  { number: 15000, suffix: '+', label: 'Active Cooks',   icon: Users    },
-  { number: 50000, suffix: '+', label: 'Recipes',        icon: BookOpen },
-  { number: 4.9,   suffix: '',  label: 'User Rating',    icon: Star     },
-];
+import { getAllRecipes, selectRecipeCount } from '../../features/recipes/recipesSlice';
 
 // Food thumbnails that float on the right
 const THUMBNAILS = [
@@ -17,8 +13,21 @@ const THUMBNAILS = [
 ];
 
 const Hero = () => {
-  const [counters, setCounters] = useState(STATS.map(() => 0));
+  const dispatch = useDispatch();
+  const recipeCount = useSelector(selectRecipeCount);
+  const [counters, setCounters] = useState([0, 0, 0]);
   const [started,  setStarted]  = useState(false);
+
+  const STATS = [
+    { number: 100, suffix: '+', label: 'Active Cooks',   icon: Users    },
+    { number: recipeCount || 0, suffix: '', label: 'Recipes',        icon: BookOpen },
+    { number: 4.5,  suffix: '',  label: 'User Rating',    icon: Star     },
+  ];
+
+  // Fetch recipes on mount
+  useEffect(() => {
+    dispatch(getAllRecipes());
+  }, [dispatch]);
 
   // Start counters after mount
   useEffect(() => {
@@ -27,7 +36,7 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
-    if (!started) return;
+    if (!started || recipeCount === 0) return;
     const ids = STATS.map((stat, i) => {
       const duration = stat.label === 'User Rating' ? 1200 : 1800;
       const steps    = duration / 30;
@@ -41,7 +50,7 @@ const Hero = () => {
       }, 30);
     });
     return () => ids.forEach(clearInterval);
-  }, [started]);
+  }, [started, recipeCount]);
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-stone-50 via-blue-50/40 to-emerald-50/50 overflow-hidden flex items-center pt-20">
@@ -153,7 +162,7 @@ const Hero = () => {
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                    <span className="text-sm font-black text-gray-900">4.9</span>
+                    <span className="text-sm font-black text-gray-900">4.5</span>
                   </div>
                 </div>
               </motion.div>

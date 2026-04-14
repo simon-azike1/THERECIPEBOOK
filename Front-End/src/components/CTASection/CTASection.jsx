@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 const STATS = [
-  { value: '15,000+', label: 'Active Cooks'  },
-  { value: '50,000+', label: 'Recipes Shared' },
-  { value: '4.9',     label: 'Average Rating' },
+  { value: '100+', label: 'Active Cooks'  },
+  { value: '200+', label: 'Recipes Shared' },
+  { value: '4.5',  label: 'Average Rating' },
 ];
 
 const CTASection = () => (

@@ -118,9 +118,14 @@ const [surveyLoading, setSurveyLoading] = useState(false);
     const load = async () => {
       setRecipesLoading(true);
       try {
-        const { data } = await axios.get(`${BASE}/admin/recipes`, getAdminConfig());
+        console.log('Fetching admin recipes...');
+        const { data } = await axios.get(`${BASE}/recipes`, getAdminConfig());
+        console.log('Recipes response:', data);
         setRecipes(data.data || []);
-      } catch { toast.error('Failed to load recipes'); }
+      } catch (err) { 
+        console.error('Recipes error:', err.response || err);
+        toast.error('Failed to load recipes'); 
+      }
       finally { setRecipesLoading(false); }
     };
     load();
@@ -167,7 +172,7 @@ const [surveyLoading, setSurveyLoading] = useState(false);
   const handleDeleteRecipe = async (id) => {
     if (!window.confirm('Delete this recipe permanently?')) return;
     try {
-      await axios.delete(`${BASE}/admin/recipes/${id}`, getAdminConfig());
+      await axios.delete(`${BASE}/recipes/${id}`, getAdminConfig());
       setRecipes(prev => prev.filter(r => r._id !== id));
       toast.success('Recipe deleted');
     } catch { toast.error('Failed to delete recipe'); }

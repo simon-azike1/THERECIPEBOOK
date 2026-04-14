@@ -107,9 +107,9 @@ const Testimonials = () => (
         viewport={{ once: true }} transition={{ delay: 0.35 }}
         className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/50 px-8 py-5">
         {[
-          { value: '4.9 / 5',   label: 'Average rating'     },
-          { value: '15,000+',   label: 'Active cooks'        },
-          { value: '50,000+',   label: 'Recipes shared'      },
+          { value: '4.5 / 5',   label: 'Average rating'     },
+          { value: '100+',   label: 'Active cooks'        },
+          { value: '200+',   label: 'Recipes shared'      },
         ].map((item, i) => (
           <div key={i} className="text-center">
             <p className="text-2xl font-black bg-gradient-to-r from-[#3a5d8f] to-emerald-500 bg-clip-text text-transparent">

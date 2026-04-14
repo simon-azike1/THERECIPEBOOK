@@ -59,10 +59,10 @@ const Header = () => {
             {/* ── Logo ── */}
             <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
               <div className="relative">
-                <img
-                  src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=100&q=80"
-                  alt="TheRecipeBook"
-                  className="w-10 h-10 lg:w-11 lg:h-11 rounded-2xl object-cover shadow-md ring-2 ring-white group-hover:ring-[#3a5d8f]/30 transition-all duration-300"
+<img
+                  src='/logo.png'
+                  alt='TheRecipeBook'
+                  className='w-10 h-10 lg:w-11 lg:h-11 rounded-2xl object-cover shadow-md ring-2 ring-white group-hover:ring-[#3a5d8f]/30 transition-all duration-300'
                 />
               </div>
               <span className="text-lg lg:text-xl font-black bg-gradient-to-r from-gray-900 via-[#3a5d8f] to-emerald-600 bg-clip-text text-transparent tracking-tight">

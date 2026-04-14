@@ -74,6 +74,7 @@ const CreateRecipeModal = ({ isOpen, onClose, initialData = null, isEditing = fa
 
   const [step, setStep] = useState(1);
   const [previewImage, setPreviewImage] = useState(null);
+  const [tagsInput, setTagsInput] = useState('');
 
   const [formData, setFormData] = useState({
     recipeName: '', description: '', cuisineType: '', preparationTime: '',
@@ -87,6 +88,7 @@ const CreateRecipeModal = ({ isOpen, onClose, initialData = null, isEditing = fa
     if (initialData) {
       setFormData({ ...initialData, recipeImage: null });
       setPreviewImage(initialData.recipeImage || null);
+      setTagsInput(initialData.tags ? initialData.tags.join(', ') : '');
     }
   }, [initialData]);
 
@@ -95,6 +97,7 @@ const CreateRecipeModal = ({ isOpen, onClose, initialData = null, isEditing = fa
     if (isOpen && !initialData) {
       setStep(1);
       setPreviewImage(null);
+      setTagsInput('');
       setFormData({
         recipeName: '', description: '', cuisineType: '', preparationTime: '',
         cookingTime: '', servingSize: '', difficultyLevel: '',
@@ -375,8 +378,9 @@ const CreateRecipeModal = ({ isOpen, onClose, initialData = null, isEditing = fa
                     <div>
                       <label className={labelCls}><Tag className="w-3 h-3 inline mr-1 -mt-0.5" />Tags</label>
                       <input type="text" placeholder="e.g. healthy, quick, weeknight, family-friendly"
-                        value={formData.tags.join(', ')}
-                        onChange={e => set('tags', e.target.value.split(',').map(t => t.trim()).filter(Boolean))}
+                        value={tagsInput}
+                        onChange={e => setTagsInput(e.target.value)}
+                        onBlur={e => set('tags', e.target.value.split(/\s*,\s*/).filter(t => t))}
                         className={inputCls} />
                       <p className="text-[10px] text-gray-400 mt-1">Separate tags with commas</p>
                       {formData.tags.length > 0 && (
